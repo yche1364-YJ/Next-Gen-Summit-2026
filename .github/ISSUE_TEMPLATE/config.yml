@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: "📖 How to submit (step-by-step guide)"
+    url: https://github.com/yche1364-YJ/Next-Gen-Summit-2026/blob/main/SUBMIT.md
+    about: Read this first if you're not sure what to do.
+  - name: "🕹️ Play everyone's games"
+    url: https://yche1364-yj.github.io/Next-Gen-Summit-2026/
+    about: The Threadbare + Godot Challenge game gallery.

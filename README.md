@@ -12,6 +12,9 @@ This repository contains a version of the **Moddable Platformer** game with a ne
 |---|---|
 | **Godot Web Editor** (open this in Chrome or Edge) | **https://editor.godotengine.org/releases/latest/** |
 | **Download the game project** | [`moddable-platformer-bouncy.zip`](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/raw/main/moddable-platformer-bouncy.zip) |
+| 🕹️ **Game Gallery** (play everyone's games) | **https://yche1364-yj.github.io/Next-Gen-Summit-2026/** |
+| 📤 **Submit your game** | [How to submit](SUBMIT.md) · [Submission form](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/issues/new?template=submit-game.yml) |
+| Teachers | [Teacher guide](TEACHER-GUIDE.md) |
 | Original project | https://github.com/endlessm/moddable-platformer |
 | Godot web editor documentation | https://docs.godotengine.org/en/stable/tutorials/editor/using_the_web_editor.html |
 
@@ -60,6 +63,10 @@ This project is **based on [endlessm/moddable-platformer](https://github.com/end
 | File / folder | What it is |
 |---|---|
 | [`moddable-platformer-bouncy.zip`](moddable-platformer-bouncy.zip) | **The complete game project with Bouncy.** This is the file you load into the web editor. |
+| [`SUBMIT.md`](SUBMIT.md) | How students submit their finished game |
+| [`TEACHER-GUIDE.md`](TEACHER-GUIDE.md) | How teachers approve submissions and run the gallery |
+| [`submissions/`](submissions/) | Accepted games (added automatically) |
+| [`tools/`](tools/), [`gallery/`](gallery/), [`.github/`](.github/) | The submission form and the automation that builds the gallery website |
 | [`bouncy-asset/`](bouncy-asset/) | The Bouncy asset's source files, so you can read the code on GitHub |
 | [`images/`](images/) | Screenshots and the demo animation used in this README |
 | [`LICENSE`](LICENSE) | License (MIT) |
@@ -124,6 +131,12 @@ Because your project lives inside the browser, **download a copy at the end of e
 2. A ZIP file of your project is downloaded to your computer.
 
 **To continue next time:** open the web editor again and load *your* downloaded ZIP with **Preload project ZIP** (Step 2), instead of the original one.
+
+### Step 6: Submit your finished game
+
+When your game is finished, one person per team submits the ZIP with the online form. After your teacher approves it, your game appears in the **[Game Gallery](https://yche1364-yj.github.io/Next-Gen-Summit-2026/)**, where anyone can play it in the browser — that's where we'll play all the games on presentation day.
+
+👉 **[How to submit your game](SUBMIT.md)** (includes how to create a GitHub account)
 
 ---
 

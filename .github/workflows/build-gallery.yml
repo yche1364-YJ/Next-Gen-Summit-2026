@@ -1,0 +1,121 @@
+name: Build game gallery
+
+# Exports every game in submissions/ for the web and publishes the gallery
+# website to GitHub Pages. Started automatically after a submission is
+# accepted, when files in submissions/ are changed, or by hand from the
+# Actions tab ("Run workflow").
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "submissions/**"
+      - "tools/**"
+      - "gallery/**"
+      - ".github/workflows/build-gallery.yml"
+
+concurrency:
+  group: build-gallery
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  GODOT_VERSION: "4.7.2"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # Godot + web export templates (cached; saved right after download,
+      # before any student project is opened).
+      - name: Restore Godot
+        id: godot-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: godot
+          key: godot-${{ env.GODOT_VERSION }}-web-v1
+
+      - name: Download Godot and web export templates
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          base="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable"
+          mkdir -p godot && cd godot
+          wget -q -O godot.zip "$base/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q godot.zip && rm godot.zip
+          mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" godot
+          touch ._sc_
+          wget -q -O templates.tpz "$base/Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          unzip -q templates.tpz 'templates/version.txt' 'templates/web_nothreads_release.zip' 'templates/web_nothreads_debug.zip'
+          rm templates.tpz
+          mkdir -p editor_data/export_templates
+          mv templates "editor_data/export_templates/${GODOT_VERSION}.stable"
+          ./godot --version
+
+      - name: Save Godot
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: godot
+          key: godot-${{ env.GODOT_VERSION }}-web-v1
+
+      - name: Install virtual display (for thumbnails)
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q xvfb libgl1-mesa-dri
+
+      # Games that haven't changed are reused from the previous build.
+      - name: Restore previous builds
+        uses: actions/cache/restore@v6
+        with:
+          path: build-cache
+          key: gallery-build-${{ github.run_id }}
+          restore-keys: gallery-build-
+
+      - name: Build games and gallery
+        env:
+          GODOT: ${{ github.workspace }}/godot/godot
+          TEMPLATES: ${{ github.workspace }}/godot/editor_data/export_templates/${{ env.GODOT_VERSION }}.stable
+          CACHE_IN: build-cache
+          CACHE_OUT: build-cache-new
+          SITE: site
+          REPO: ${{ github.repository }}
+        run: python3 tools/build_gallery.py
+
+      - name: Prepare build cache
+        run: |
+          rm -rf build-cache
+          mv build-cache-new build-cache
+
+      - name: Save builds
+        uses: actions/cache/save@v6
+        with:
+          path: build-cache
+          key: gallery-build-${{ github.run_id }}
+
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

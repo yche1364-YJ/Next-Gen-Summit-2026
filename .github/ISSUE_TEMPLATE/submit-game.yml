@@ -1,0 +1,89 @@
+name: "🎮 Submit our game"
+description: Submit your team's game to the Threadbare + Godot Challenge gallery.
+title: "[Game] "
+labels: ["submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Submit your game 🎮
+        **Only one person per team** needs to fill in this form.
+        Need help? Read the [step-by-step submission guide](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/blob/main/SUBMIT.md).
+
+        ⚠️ **This page is public.** Use first names or nicknames only — no last names, emails, schools or other personal information.
+
+  - type: input
+    id: title
+    attributes:
+      label: Game title
+      description: The name of your game.
+      placeholder: "Super Bouncy Adventure"
+    validations:
+      required: true
+
+  - type: input
+    id: team
+    attributes:
+      label: Team name
+      placeholder: "The Space Hoppers"
+    validations:
+      required: true
+
+  - type: input
+    id: members
+    attributes:
+      label: Team members
+      description: First names or nicknames only.
+      placeholder: "Alex, Sam"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: About the game
+      description: 1–3 sentences. What is the goal? What did you change or add?
+      placeholder: "Collect all the coins! We added giant trampolines, lowered the gravity and made the enemies faster."
+    validations:
+      required: true
+
+  - type: textarea
+    id: controls
+    attributes:
+      label: Controls
+      description: How do you play?
+      value: "Player One: ← → to move, ↑ to jump"
+    validations:
+      required: true
+
+  - type: input
+    id: scene
+    attributes:
+      label: Scene to play
+      description: The scene file that contains your game. Leave it as `main.tscn` unless you built your game in a different scene (for example `bouncy_demo.tscn`).
+      value: "main.tscn"
+    validations:
+      required: true
+
+  - type: textarea
+    id: zip
+    attributes:
+      label: Game ZIP file
+      description: |
+        In the Godot web editor, click **Project → Tools → Download Project Source**.
+        Then **drag the downloaded ZIP file into this box** and wait until a link appears (it looks like `[my-game.zip](https://github.com/user-attachments/files/...)`).
+      placeholder: "Drag your ZIP file here…"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: We pressed **F5** (or played our scene) and the game works.
+          required: true
+        - label: We only used first names or nicknames, and no personal information.
+          required: true
+        - label: Any pictures or sounds we added are our own, or we are allowed to use them.
+          required: true

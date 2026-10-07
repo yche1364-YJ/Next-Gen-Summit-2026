@@ -1,0 +1,77 @@
+name: Accept game submission
+
+# Runs when a teacher adds the "approved" label to a "submission" issue.
+# Only people with write/triage access to the repository can add labels,
+# so this is the teacher's review step.
+on:
+  issues:
+    types: [labeled]
+
+concurrency:
+  group: accept-submission
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+jobs:
+  accept:
+    if: github.event.label.name == 'approved' && contains(github.event.issue.labels.*.name, 'submission')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Read the issue and save the ZIP
+        id: accept
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 tools/accept_submission.py
+
+      - name: Commit the submission
+        if: steps.accept.outputs.ok == 'true'
+        env:
+          SUB_ID: ${{ steps.accept.outputs.id }}
+          ISSUE: ${{ github.event.issue.number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add submissions
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+          else
+            git commit -m "Add game submission ${SUB_ID} (#${ISSUE})"
+            for attempt in 1 2 3 4 5; do
+              git pull --rebase origin main && git push origin HEAD:main && break
+              sleep $((attempt * 5))
+            done
+          fi
+
+      - name: Start the gallery build
+        if: steps.accept.outputs.ok == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run build-gallery.yml --ref main --repo "$GITHUB_REPOSITORY"
+
+      - name: Reply on the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MESSAGE: ${{ steps.accept.outputs.message }}
+          ISSUE: ${{ github.event.issue.number }}
+        run: gh issue comment "$ISSUE" --repo "$GITHUB_REPOSITORY" --body "$MESSAGE"
+
+      - name: Update labels (accepted)
+        if: steps.accept.outputs.ok == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE: ${{ github.event.issue.number }}
+        run: gh issue edit "$ISSUE" --repo "$GITHUB_REPOSITORY" --add-label published --remove-label needs-fix || true
+
+      - name: Update labels (needs a fix)
+        if: steps.accept.outputs.ok != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE: ${{ github.event.issue.number }}
+        run: gh issue edit "$ISSUE" --repo "$GITHUB_REPOSITORY" --add-label needs-fix --remove-label approved --remove-label published || true
