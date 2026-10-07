@@ -1,0 +1,12 @@
+{
+  "id": "001-bouncy-demo-example",
+  "issue": 1,
+  "title": "Bouncy Demo (Example)",
+  "team": "Teacher's Example",
+  "members": "Ms. Y",
+  "description": "An example submission: the original level with a trampoline and a bouncy platform. Bounce up to reach the coins!",
+  "controls": "Player One: ← → to move, ↑ to jump",
+  "scene": "bouncy_demo.tscn",
+  "submitted_by": "yche1364-YJ",
+  "approved_at": "2026-10-07T22:00:51+00:00"
+}
