@@ -11,7 +11,8 @@ This repository contains a version of the **Moddable Platformer** game with a ne
 | | |
 |---|---|
 | **Godot Web Editor** (open this in Chrome or Edge) | **https://editor.godotengine.org/releases/latest/** |
-| **Download the game project** | [`moddable-platformer-bouncy.zip`](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/raw/main/moddable-platformer-bouncy.zip) |
+| **Download the game project** (includes Bouncy) | [`moddable-platformer-bouncy.zip`](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/raw/main/moddable-platformer-bouncy.zip) |
+| Bouncy asset only (for a project you already started) | [`bouncy-asset.zip`](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/raw/main/bouncy-asset.zip) |
 | 🕹️ **Game Gallery** (play everyone's games) | **https://yche1364-yj.github.io/Next-Gen-Summit-2026/** |
 | 📤 **Submit your game** | [How to submit](SUBMIT.md) · [Submission form](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/issues/new?template=submit-game.yml) |
 | Teachers | [Teacher guide](TEACHER-GUIDE.md) |
@@ -67,6 +68,7 @@ This project is **based on [endlessm/moddable-platformer](https://github.com/end
 | [`TEACHER-GUIDE.md`](TEACHER-GUIDE.md) | How teachers approve submissions and run the gallery |
 | [`submissions/`](submissions/) | Accepted games (added automatically) |
 | [`tools/`](tools/), [`gallery/`](gallery/), [`.github/`](.github/) | The submission form and the automation that builds the gallery website |
+| [`bouncy-asset.zip`](bouncy-asset.zip) | **Just the Bouncy asset**, to add it to a project you already started ([how](#no-bouncy-folder-add-it-to-your-project)) |
 | [`bouncy-asset/`](bouncy-asset/) | The Bouncy asset's source files, so you can read the code on GitHub |
 | [`images/`](images/) | Screenshots and the demo animation used in this README |
 | [`LICENSE`](LICENSE) | License (MIT) |
@@ -141,6 +143,26 @@ When your game is finished, one person per team submits the ZIP with the online 
 ---
 
 ## Using the Bouncy asset
+
+### Where is the Bouncy Pad?
+
+> ⚠️ **The Godot web editor starts empty.** The Bouncy asset is **inside our game project**, not in the editor and not in the **Asset Store**. You only see it after loading **`moddable-platformer-bouncy.zip`** (see [Quick start](#quick-start-open-the-game-in-your-browser)).
+
+In the **FileSystem** dock (bottom left), open **`components`** → **`bouncy`**, then **drag `bouncy_pad.tscn` into the level**:
+
+![Where to find bouncy_pad.tscn in the FileSystem dock](images/find_bouncy_pad.png)
+
+**Shortcut:** type `bouncy` in the **Filter Files** box at the top of the FileSystem dock.
+
+#### No `bouncy` folder? Add it to your project
+
+If there's no `components/bouncy` folder, you loaded the **original** Moddable Platformer instead of our version. You don't have to start over:
+
+1. Download **[`bouncy-asset.zip`](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/raw/main/bouncy-asset.zip)** and **unzip it** on your computer. You get a folder called **`bouncy`**.
+2. In the Godot web editor, **drag the `bouncy` folder** from your computer onto the **`components`** folder in the FileSystem dock.
+3. Check that you now have `components/bouncy/bouncy_pad.tscn`. Done!
+
+> The folder must end up exactly at `components/bouncy/` — the files expect that location.
 
 There are two ways to make things bouncy:
 
@@ -284,6 +306,7 @@ The files in [`bouncy-asset/`](bouncy-asset/) are written for **this** game. To 
 | The editor shows an empty 3D grid | Click **2D** at the top of the screen. |
 | The keyboard doesn't control the player | Click once on the game picture first. |
 | I can't find `bouncy_demo.tscn` | Scroll down in the FileSystem dock — files are listed below the folders. |
+| I can't find the Bouncy Pad | It's in `components/bouncy/` — see [Where is the Bouncy Pad?](#where-is-the-bouncy-pad) |
 | The player doesn't bounce on my object | Make sure the pink box is on the **top** surface and sticks out a little above it, and that it's as wide as the object. |
 | My project disappeared | It was stored in the browser. Load your last **Download Project Source** ZIP using Preload project ZIP. |
 | My custom picture has invisible walls | Crop the empty transparent space around the picture. |
