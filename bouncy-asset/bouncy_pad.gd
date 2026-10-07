@@ -82,11 +82,7 @@ func _update() -> void:
 
 	# Bouncy area = a strip along the top edge of the picture.
 	_bouncy.position = Vector2(0, -size.y)
-	var area_shape := RectangleShape2D.new()
-	area_shape.size = Vector2(size.x, 48)
-	var area_collision: CollisionShape2D = _bouncy.get_node("CollisionShape2D")
-	area_collision.shape = area_shape
-	area_collision.position = Vector2(0, -16)
+	_bouncy.zone_width = size.x
 
 	_bouncy.bounce_height = bounce_height
 	_bouncy.hold_jump_boost = hold_jump_boost

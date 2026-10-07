@@ -8,12 +8,19 @@ extends Area2D
 ## [br]1. In the Scene dock, right-click an object → Instantiate Child Scene →
 ## choose [code]bouncy.tscn[/code].
 ## [br]2. Move the Bouncy node to the object's top surface. The pink box should
-## stick out slightly above the surface and be as wide as the object.
-## [br]3. Adjust [member bounce_height] in the Inspector.
+## stick out slightly above the surface.
+## [br]3. Set [member zone_width] so the pink box is as wide as the object.
+## [br]4. Adjust [member bounce_height] in the Inspector.
 
 ## How high (in pixels) the player is launched. For comparison, a normal jump
 ## is about 395 pixels.
 @export_range(0, 3000, 10, "or_greater", "suffix:px") var bounce_height: float = 600.0
+
+## How wide the bounce zone (the pink box) is, in pixels. Make it as wide as the
+## object it sits on. A Platform is 128 px per tile, so a Platform with width 2
+## needs 256.
+@export_range(16, 2048, 1, "or_greater", "suffix:px") var zone_width: float = 128.0:
+	set = _set_zone_width
 
 ## Extra height (in %) when the player holds the jump key while landing.
 @export_range(0, 200, 5, "suffix:%") var hold_jump_boost: float = 30.0
@@ -35,7 +42,27 @@ var _tween: Tween
 var _squash_original_scale := Vector2.ONE
 
 
+func _set_zone_width(value: float) -> void:
+	zone_width = value
+	_update_zone()
+
+
+func _update_zone() -> void:
+	if not is_node_ready():
+		return
+	var shape_node := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if not shape_node:
+		return
+	var rect := shape_node.shape as RectangleShape2D
+	if not rect:
+		rect = RectangleShape2D.new()
+		rect.size = Vector2(zone_width, 48)
+		shape_node.shape = rect
+	rect.size.x = zone_width
+
+
 func _ready() -> void:
+	_update_zone()
 	if Engine.is_editor_hint():
 		return
 

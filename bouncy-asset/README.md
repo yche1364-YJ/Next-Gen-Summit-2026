@@ -8,7 +8,7 @@ Makes the player bounce into the air when they land on something. There are two 
 | What it is | A ready-made trampoline you drag into a level | Attach it to **any object** to make that object bouncy |
 | Good for | Beginners | Anyone who wants platforms, enemies, rocks… to bounce |
 
-Demo level: open `bouncy_demo.tscn` and press **F6** (Run Current Scene).
+**Already in the game:** the main level (`main.tscn`) has a trampoline (`BouncyPad`) and a bouncy platform (`Platforms/BouncyPlatform`). Click them in the Scene dock to change their settings, then press **F5**.
 
 ---
 
@@ -23,7 +23,7 @@ Demo level: open `bouncy_demo.tscn` and press **F6** (Run Current Scene).
 
 1. In the **Scene** dock (top left), **right-click** the object you want to make bouncy (for example a Platform) → **Instantiate Child Scene**, and choose `components/bouncy/bouncy.tscn`.
 2. Move the new Bouncy node to the object's **top surface** (the pink box should stick out slightly above the surface).
-3. Select the CollisionShape2D under Bouncy and drag the handles on the sides of the box so it's as wide as the object.
+3. In the Inspector, set **Zone Width** so the pink box is as wide as the object (a Platform is 128 px per tile).
 4. Adjust the settings and press F5 to play.
 
 ---
@@ -33,6 +33,7 @@ Demo level: open `bouncy_demo.tscn` and press **F6** (Run Current Scene).
 | Setting | What it does | Default |
 |---|---|---|
 | **Bounce Height** | How high the player is launched, in pixels. A normal jump is about 395 | 600 |
+| **Zone Width** (Bouncy component) | How wide the pink bounce zone is, in pixels | 128 |
 | **Hold Jump Boost** | Extra height (%) if the player holds the jump key while landing | 30% |
 | **Squash Effect** | Squash-and-stretch effect when bounced on | On |
 | **Bounce Sound** | Sound played when bounced on (the pad uses "boing" by default) | — |

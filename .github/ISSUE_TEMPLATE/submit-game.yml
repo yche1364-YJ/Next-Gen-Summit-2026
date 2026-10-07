@@ -60,7 +60,7 @@ body:
     id: scene
     attributes:
       label: Scene to play
-      description: The scene file that contains your game. Leave it as `main.tscn` unless you built your game in a different scene (for example `bouncy_demo.tscn`).
+      description: The scene file that contains your game. Leave it as `main.tscn` unless you built your game in a different scene (for example `my_level.tscn`).
       value: "main.tscn"
     validations:
       required: true

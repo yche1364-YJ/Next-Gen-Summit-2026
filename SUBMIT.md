@@ -38,7 +38,7 @@ GitHub is a website where people share code and projects. You need an account to
 
 1. Open your project in the **Godot web editor** (https://editor.godotengine.org/releases/latest/).
 2. **Test it one last time:** press **F5**. What you see is what everyone will play in the gallery.
-   - If your game is in a different scene (for example you built it in `bouncy_demo.tscn`), remember that scene's name — you'll need it in Step 3.
+   - If your game is in a different scene (for example a new scene called `my_level.tscn`), remember that scene's name — you'll need it in Step 3.
 3. Stop the game and go back to the **Editor** tab.
 4. Open the **Project** menu → **Tools** → **Download Project Source**.
 5. A ZIP file is saved to your computer, usually in your **Downloads** folder.

@@ -52,10 +52,10 @@ This project is **based on [endlessm/moddable-platformer](https://github.com/end
 | `components/bouncy/bouncy_pad.tscn` | A ready-made **trampoline** you can drag into any level |
 | `components/bouncy/bouncy.tscn` | A **Bouncy component** that makes *any* object bouncy |
 | `components/bouncy/bouncy_pad.png` | The default trampoline picture (replace it with your own!) |
-| `bouncy_demo.tscn` | A **demo level**: the original level plus a trampoline and a bouncy platform |
 | `components/bouncy/README.md` | Short instructions inside the project |
+| `main.tscn` *(changed)* | The main level now **already contains a trampoline (`BouncyPad`) and a bouncy platform (`Platforms/BouncyPlatform`)**, so you can see and edit them as soon as you open the project |
 
-**None of the original game files were changed.** The Bouncy asset only adds new files, so everything from the original project — including its own mods described in `doc/MODS.md` — still works exactly the same.
+Apart from those two new nodes in `main.tscn`, **none of the original game files were changed**, so everything from the original project — including its own mods described in `doc/MODS.md` — still works exactly the same.
 
 ---
 
@@ -108,13 +108,12 @@ The project opens in the editor.
 
 > **Tip:** if the window says *"The selected path is not empty"*, a project with that name already exists in this browser. Just type a different project name.
 
-### Step 4: Play the demo level
+### Step 4: Play the game
 
-1. The editor starts in the **3D** view, which looks empty. Click **2D** at the top of the screen to see the level.
-2. In the **FileSystem** dock (bottom left), **double-click `bouncy_demo.tscn`** to open the demo level.
-3. Click the **Run Current Scene** button (top right, the clapperboard icon next to ▶), or press **F6**.
-4. The game appears in the **Game** tab. **Click once on the game** so it receives your keyboard, then press any key to start.
-5. Walk right, jump onto the pink trampoline, and bounce! Land on the floating platform to get launched even higher.
+1. The editor starts in the **3D** view, which looks empty. Click **2D** at the top of the screen to see the level (`main.tscn`). You can already see the **pink trampoline** on the ground.
+2. Click the **▶ Run Project** button (top right), or press **F5**.
+3. The game appears in the **Game** tab. **Click once on the game** so it receives your keyboard, then press any key to start.
+4. Walk right, jump onto the pink trampoline, and bounce! Land on the floating platform above to keep bouncing.
 
 | | Move | Jump |
 |---|---|---|
@@ -122,8 +121,6 @@ The project opens in the editor.
 | **Player Two** | A / D | W |
 
 To go back to editing, click the **Editor** tab at the top. Click the **■ Stop** button (top right) to stop the game.
-
-> To play the original level instead, press **F5** (Run Project). That runs `main.tscn`, which has no trampolines until you add some.
 
 ### Step 5: Save your work
 
@@ -148,7 +145,15 @@ When your game is finished, one person per team submits the ZIP with the online 
 
 > ⚠️ **The Godot web editor starts empty.** The Bouncy asset is **inside our game project**, not in the editor and not in the **Asset Store**. You only see it after loading **`moddable-platformer-bouncy.zip`** (see [Quick start](#quick-start-open-the-game-in-your-browser)).
 
-In the **FileSystem** dock (bottom left), open **`components`** → **`bouncy`**, then **drag `bouncy_pad.tscn` into the level**:
+**It's already in the level.** When the project opens, the main level (`main.tscn`) already has a trampoline and a bouncy platform. To edit them:
+
+- **In the Scene dock** (top left), click **`BouncyPad`** (near the top, just below `TileMap`) — or click the pink trampoline in the 2D view.
+- For the bouncy platform, expand **`Platforms`** → **`BouncyPlatform`** and click **`Bouncy`**.
+- Their settings appear in the **Inspector** on the right (see [Customizing the Bouncy asset](#customizing-the-bouncy-asset)).
+
+![The BouncyPad selected in the Scene dock, with its settings in the Inspector](images/editor_bouncy_pad.png)
+
+**Want more trampolines?** Select `BouncyPad` and press **Ctrl+D** (**Cmd+D** on Mac) to duplicate it, then drag the copy somewhere else. Or drag a new one in from the **FileSystem** dock (bottom left): open **`components`** → **`bouncy`** and **drag `bouncy_pad.tscn` into the level**:
 
 ![Where to find bouncy_pad.tscn in the FileSystem dock](images/find_bouncy_pad.png)
 
@@ -175,28 +180,25 @@ There are two ways to make things bouncy:
 ### Option 1: Add a trampoline (Bouncy Pad)
 
 1. Open a level, for example `main.tscn`, and make sure you're in the **2D** view.
-2. In the **FileSystem** dock, open the `components/bouncy/` folder.
-3. **Drag `bouncy_pad.tscn` into the level.**
-4. Move it so it **sits on the ground**. The trampoline's origin (the point you drag) is at the **bottom-centre** of the picture.
-5. With the trampoline selected, change its settings in the **Inspector** on the right.
-6. Press **F5** (or **F6** for the current scene) to test it.
+2. Duplicate the existing `BouncyPad` (**Ctrl+D**), **or** drag `components/bouncy/bouncy_pad.tscn` from the FileSystem dock into the level.
+3. Move it so it **sits on the ground**. The trampoline's origin (the point you drag) is at the **bottom-centre** of the picture.
+4. With the trampoline selected, change its settings in the **Inspector** on the right.
+5. Press **F5** to test it.
 
-![The Bouncy Pad selected in the editor, with its settings in the Inspector](images/editor_bouncy_pad.png)
-
-*The Bouncy Pad selected in the editor. The pink box is the bounce zone; the blue box is the solid part you can stand on. All the settings you need are at the top of the Inspector.*
+*In the editor, the pink box is the bounce zone and the blue box is the solid part you can stand on. All the settings you need are at the top of the Inspector.*
 
 ### Option 2: Make any object bouncy (Bouncy component)
 
 1. In the **Scene** dock (top left), **right-click** the object you want to make bouncy — for example one of the `Platform` nodes — and choose **Instantiate Child Scene**.
 2. Pick `components/bouncy/bouncy.tscn`. A new **Bouncy** node appears under your object.
-3. Move the Bouncy node to the object's **top surface**. The **pink box** should stick out slightly above the surface.
-4. Make the pink box **as wide as the object**: expand the Bouncy node, select its **CollisionShape2D**, and drag the orange handles on the sides of the box.
-5. Select the Bouncy node again and change its settings in the **Inspector**.
-6. Press **F5** / **F6** to test.
+3. Move the Bouncy node to the object's **top surface**. The **pink box** should stick out slightly above the surface. For a Platform, set the Bouncy node's **Position y** to **-64**.
+4. Make the pink box **as wide as the object**: in the Inspector, set **Zone Width**. A Platform is **128 px per tile**, so a Platform with `Width` 2 needs **256**.
+5. Change the other settings in the **Inspector**.
+6. Press **F5** to test.
 
 ![A platform with a Bouncy component attached](images/editor_bouncy_platform.png)
 
-*In the demo level, `BouncyPlatform` has a `Bouncy` child. The pink bounce zone covers the platform's whole top surface.*
+*In the main level, `Platforms/BouncyPlatform` has a `Bouncy` child with Zone Width 256. The pink bounce zone covers the platform's whole top surface.*
 
 > **Tip:** you can attach Bouncy to almost anything — a platform, a sign, the flag, even an enemy. The player bounces whenever they land on the pink zone from above.
 
@@ -208,7 +210,8 @@ There are two ways to make things bouncy:
 
 | Setting | What it does | Default | Bouncy Pad | Bouncy component |
 |---|---|---|:-:|:-:|
-| **Bounce Height** | How high the player is launched, **in pixels**. For comparison, a normal jump is about **395 px**. | 600 (demo pad: 900) | ✓ | ✓ |
+| **Bounce Height** | How high the player is launched, **in pixels**. For comparison, a normal jump is about **395 px**. | 600 (in the level: 900 for the pad, 700 for the platform) | ✓ | ✓ |
+| **Zone Width** | How wide the pink bounce zone is, in pixels. Make it as wide as the object. | 128 | (automatic) | ✓ |
 | **Hold Jump Boost** | Extra height (in %) if the player is holding the jump key when they land. Set to 0 to turn it off. | 30% | ✓ | ✓ |
 | **Squash Effect** | Squashes and stretches the picture when someone bounces on it. | On | ✓ | ✓ |
 | **Squash Node** | Which node gets squashed. If empty, the Bouncy node's parent is squashed. | (parent) | — | ✓ |
@@ -239,7 +242,7 @@ The solid area and the bounce zone **resize automatically** to fit your picture.
 
 ### Change how the Bouncy component looks or works on an object
 
-- **Wider/narrower bounce zone:** select the Bouncy node's **CollisionShape2D** and drag its handles.
+- **Wider/narrower bounce zone:** change **Zone Width** in the Inspector.
 - **Squash only part of an object:** set **Squash Node** to the picture (for example a `Sprite2D`) instead of the whole object.
 - **No squash:** untick **Squash Effect**. This is a good idea on large objects or on platforms that move.
 
@@ -305,7 +308,6 @@ The files in [`bouncy-asset/`](bouncy-asset/) are written for **this** game. To 
 | *"The selected path is not empty"* | Change the **Project Name** in the Install window to a new name. |
 | The editor shows an empty 3D grid | Click **2D** at the top of the screen. |
 | The keyboard doesn't control the player | Click once on the game picture first. |
-| I can't find `bouncy_demo.tscn` | Scroll down in the FileSystem dock — files are listed below the folders. |
 | I can't find the Bouncy Pad | It's in `components/bouncy/` — see [Where is the Bouncy Pad?](#where-is-the-bouncy-pad) |
 | The player doesn't bounce on my object | Make sure the pink box is on the **top** surface and sticks out a little above it, and that it's as wide as the object. |
 | My project disappeared | It was stored in the browser. Load your last **Download Project Source** ZIP using Preload project ZIP. |
@@ -317,7 +319,7 @@ The files in [`bouncy-asset/`](bouncy-asset/) are written for **this** game. To 
 
 - **Original game:** [Moddable Platformer](https://github.com/endlessm/moddable-platformer) by **[Endless Access](https://endlessaccess.org)**, released under the **MIT License** — Copyright 2024–2025 Endless Access. The original game's code, art, sounds and level are unchanged and remain the work of Endless Access and the asset creators credited in that project.
 - **Bounce sound:** the trampoline reuses the "boing" sound already included in the original project (`assets/sounds/538066__stevielematt__boing.ogg`, from Freesound).
-- **Bouncy asset** (Bouncy component, Bouncy Pad, trampoline picture and demo level): created for **Next-Gen Summit 2026** and shared under the same **MIT License**.
+- **Bouncy asset** (Bouncy component, Bouncy Pad, trampoline picture, and the trampoline and bouncy platform added to the main level): created for **Next-Gen Summit 2026** and shared under the same **MIT License**.
 - **Godot Engine:** https://godotengine.org
 
 See [`LICENSE`](LICENSE) for the full license text.
