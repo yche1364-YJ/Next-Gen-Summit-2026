@@ -6,6 +6,15 @@
 
 This repository contains a version of the **Moddable Platformer** game with a new **Bouncy** asset added. Students open it in the free Godot web editor, play it in the browser, and change how the game works — no installation and no coding required.
 
+### 🔗 Links
+
+| | |
+|---|---|
+| **Godot Web Editor** (open this in Chrome or Edge) | **https://editor.godotengine.org/releases/latest/** |
+| **Download the game project** | [`moddable-platformer-bouncy.zip`](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/raw/main/moddable-platformer-bouncy.zip) |
+| Original project | https://github.com/endlessm/moddable-platformer |
+| Godot web editor documentation | https://docs.godotengine.org/en/stable/tutorials/editor/using_the_web_editor.html |
+
 ---
 
 ## Contents
