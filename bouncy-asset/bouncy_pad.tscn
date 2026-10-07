@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://components/bouncy/bouncy_pad.gd" id="1_pad"]
+[ext_resource type="Texture2D" path="res://components/bouncy/bouncy_pad.png" id="2_tex"]
+[ext_resource type="PackedScene" path="res://components/bouncy/bouncy.tscn" id="3_bouncy"]
+[ext_resource type="AudioStream" path="res://assets/sounds/538066__stevielematt__boing.ogg" id="4_boing"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pad"]
+size = Vector2(128, 64)
+
+[node name="BouncyPad" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_pad")
+bounce_sound = ExtResource("4_boing")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture = ExtResource("2_tex")
+offset = Vector2(0, -32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_pad")
+
+[node name="Bouncy" parent="." instance=ExtResource("3_bouncy")]
+unique_name_in_owner = true
+position = Vector2(0, -64)
