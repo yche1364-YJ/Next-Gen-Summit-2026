@@ -1,0 +1,12 @@
+{
+  "id": "002-test-submission",
+  "issue": 2,
+  "title": "Test submission",
+  "team": "The Testers",
+  "members": "Justin",
+  "description": "Testing",
+  "controls": "Player One: ← → to move, ↑ to jump",
+  "scene": "",
+  "submitted_by": "jgbourque",
+  "approved_at": "2026-10-08T16:10:11+00:00"
+}
