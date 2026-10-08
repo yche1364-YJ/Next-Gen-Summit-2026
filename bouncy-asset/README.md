@@ -1,6 +1,6 @@
 # Bouncy Component
 
-Makes the player bounce into the air when they land on something. There are two ways to use it:
+Makes the player bounce when they land on something — or, rotated, bounce off a wall. There are two ways to use it:
 
 | | Bouncy Pad | Bouncy component |
 |---|---|---|
@@ -26,13 +26,24 @@ Makes the player bounce into the air when they land on something. There are two 
 3. In the Inspector, set **Zone Width** so the pink box is as wide as the object (a Platform is 128 px per tile).
 4. Adjust the settings and press F5 to play.
 
+## Bouncy walls and slopes
+
+Rotate a trampoline (or any object with Bouncy) and it launches the player **out of its face**, in whatever direction it points:
+
+1. Select the trampoline and, in the Inspector, open **Transform** → set **Rotation** to **-90** (wall that pushes left) or **90** (wall that pushes right). A value like 45 makes a slope.
+2. Place it so its pink face points where the player comes from.
+3. Use **Launch Angle** to tilt the direction further, for example so a wall pushes the player out *and* up.
+
+In the editor, a **yellow arrow** shows exactly where the player will be launched. It's only visible in the editor, not in the game.
+
 ---
 
 ## Settings you can change
 
 | Setting | What it does | Default |
 |---|---|---|
-| **Bounce Height** | How high the player is launched, in pixels. A normal jump is about 395 | 600 |
+| **Bounce Height** | How hard the player is launched. Lying flat with Launch Angle 0, it's exactly how high they go, in pixels (a normal jump is about 395) | 600 |
+| **Launch Angle** | Tilts the launch direction, in degrees. 0 = straight out of the bouncy face; positive tilts clockwise, negative counterclockwise. Watch the yellow arrow | 0 |
 | **Zone Width** (Bouncy component) | How wide the pink bounce zone is, in pixels | 128 |
 | **Hold Jump Boost** | Extra height (%) if the player holds the jump key while landing | 30% |
 | **Squash Effect** | Squash-and-stretch effect when bounced on | On |
@@ -54,10 +65,13 @@ To go back to the original picture: right-click the Texture field → **Clear**.
 
 ## How does it work? (for the curious)
 
-`bouncy.gd` is an **Area2D** (a detection zone). When a player enters the zone while falling, it sets the player's vertical speed to point upwards:
+`bouncy.gd` is an **Area2D** (a detection zone). When a player enters the zone while moving towards its face, it sets the player's speed to point out of the face:
 
 ```gdscript
-character.velocity.y = -sqrt(2.0 * gravity * height)
+var speed := sqrt(2.0 * gravity * height)
+character.velocity = launch_direction() * speed
 ```
 
-This is the physics formula **v = √(2gh)**: the starting speed you need to reach a height of h. That's why you only have to enter a *height* — the script works out the speed from the current gravity.
+This is the physics formula **v = √(2gh)**: the starting speed you need to reach a height of h. That's why you only have to enter a *height* — the script works out the speed from the current gravity. The direction comes from the object's rotation plus **Launch Angle**.
+
+When the push is sideways, the player can't steer left/right for 0.4 seconds, so the push actually carries them away (otherwise the Player script would brake almost instantly).

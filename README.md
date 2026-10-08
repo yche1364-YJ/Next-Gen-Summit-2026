@@ -202,6 +202,27 @@ There are two ways to make things bouncy:
 
 > **Tip:** you can attach Bouncy to almost anything — a platform, a sign, the flag, even an enemy. The player bounces whenever they land on the pink zone from above.
 
+### Bouncy walls and slopes
+
+**Rotate a trampoline and it becomes a bouncy wall or slope.** It always launches the player out of its pink face, in whatever direction it points.
+
+![A player bouncing off a bouncy wall](images/bouncy_wall.gif)
+
+1. Select the trampoline (for example duplicate `BouncyPad` with **Ctrl+D** first).
+2. In the **Inspector**, open **Transform** and set **Rotation**:
+   - **-90** → a wall that pushes the player **left** (its face points left)
+   - **90** → a wall that pushes the player **right**
+   - **45** or **-45** → a slope that launches diagonally
+3. Move it so its pink face points where the player comes from.
+4. *(Optional)* Set **Launch Angle** to tilt the direction further — for example so a wall pushes the player out **and** up.
+5. Press **F5** and run into it.
+
+In the editor, a **yellow arrow** shows exactly where the player will be launched, so you can see the effect of Rotation and Launch Angle without playing. (The arrow is only visible in the editor, not in the game.)
+
+![A bouncy wall and a trampoline in the editor, with yellow arrows showing the launch direction](images/editor_bouncy_wall.png)
+
+> **Rotation and Launch Angle add up.** Rotation turns the whole trampoline (what you see); Launch Angle only turns the launch direction. Positive Launch Angle tilts clockwise, negative counterclockwise — just watch the arrow.
+
 ---
 
 ## Customizing the Bouncy asset
@@ -210,7 +231,8 @@ There are two ways to make things bouncy:
 
 | Setting | What it does | Default | Bouncy Pad | Bouncy component |
 |---|---|---|:-:|:-:|
-| **Bounce Height** | How high the player is launched, **in pixels**. For comparison, a normal jump is about **395 px**. | 600 (in the level: 900 for the pad, 700 for the platform) | ✓ | ✓ |
+| **Bounce Height** | How hard the player is launched. Lying flat with Launch Angle 0, it's exactly how high they go, **in pixels**. For comparison, a normal jump is about **395 px**. | 600 (in the level: 900 for the pad, 700 for the platform) | ✓ | ✓ |
+| **Launch Angle** | Tilts the launch direction, in degrees. 0 = straight out of the bouncy face. Positive tilts clockwise, negative counterclockwise; the yellow arrow in the editor shows the result. With a tilt, part of the force goes sideways, so the player goes less high. | 0 | ✓ | ✓ |
 | **Zone Width** | How wide the pink bounce zone is, in pixels. Make it as wide as the object. | 128 | (automatic) | ✓ |
 | **Hold Jump Boost** | Extra height (in %) if the player is holding the jump key when they land. Set to 0 to turn it off. | 30% | ✓ | ✓ |
 | **Squash Effect** | Squashes and stretches the picture when someone bounces on it. | On | ✓ | ✓ |
@@ -218,7 +240,9 @@ There are two ways to make things bouncy:
 | **Bounce Sound** | Sound played on each bounce. The pad uses the game's "boing" sound. | boing / none | ✓ | ✓ |
 | **Texture** | The trampoline's picture. | Pink trampoline | ✓ | — |
 
-Because **Bounce Height** is measured in pixels, you can look at the ruler at the top/left of the 2D view to see exactly how high the player will go.
+Because **Bounce Height** is measured in pixels, you can look at the ruler at the top/left of the 2D view to see exactly how high the player will go (for a flat trampoline with Launch Angle 0).
+
+The **Rotation** in the Transform section (every object has it) turns a trampoline into a wall or slope — see [Bouncy walls and slopes](#bouncy-walls-and-slopes).
 
 ### Change the trampoline's picture
 
@@ -257,6 +281,9 @@ The solid area and the bounce zone **resize automatically** to fit your picture.
 5. **Super bounce only:** set a pad's Bounce Height low (for example 200) and Hold Jump Boost high (for example 200%). Now the player *must* hold jump to get over the obstacle.
 6. **Make your own design:** draw a mushroom, a jelly, a spring or a cloud and use it as your trampoline's picture.
 7. **Bouncy enemy:** attach the Bouncy component to an enemy. What changes about the game?
+8. **Wall climb:** put two bouncy walls facing each other (Rotation 90 and -90) with Launch Angle tilted upwards. Can the player bounce back and forth to climb up?
+9. **Same force, different angle:** keep Bounce Height the same and try Launch Angle 0, 30, 45 and 60 on a flat trampoline. Which angle sends the player farthest? Which goes highest?
+10. **Get past the big wall:** at the end of the level a sign asks *"How can I get past this wall?"* Can you get over it using only trampolines?
 
 ---
 
@@ -264,17 +291,19 @@ The solid area and the bounce zone **resize automatically** to fit your picture.
 
 *(For anyone curious about the code — you don't need this to use the asset.)*
 
-The **Bouncy component** (`bouncy.gd`) is an **Area2D**, an invisible detection zone (the pink box). When a player enters the zone **while falling onto it from above**, the script changes the player's vertical speed so they fly upwards:
+The **Bouncy component** (`bouncy.gd`) is an **Area2D**, an invisible detection zone (the pink box). When a player enters the zone **while moving towards its face** (falling onto it, for a flat trampoline), the script changes the player's speed so they fly out of the face:
 
 ```gdscript
-character.velocity.y = -sqrt(2.0 * gravity * height)
+var speed := sqrt(2.0 * gravity * height)
+character.velocity = launch_direction() * speed
 ```
 
-This is the physics formula **v = √(2gh)**: the starting speed you need to reach height *h* when gravity is *g*. That's why you only type a *height* — the script works out the speed for you, using the game's current gravity. (In Godot, negative *y* means "up".)
+This is the physics formula **v = √(2gh)**: the starting speed you need to reach height *h* when gravity is *g*. That's why you only type a *height* — the script works out the speed for you, using the game's current gravity. The direction comes from the object's rotation plus **Launch Angle**. (In Godot, negative *y* means "up".)
 
 A few details that make it feel right:
 
-- It only bounces players who are **moving down** and are **above** the zone, so jumping up through a one-way platform or bumping into its side does nothing.
+- It only bounces players who are **in front of** the face and **moving towards it**, so jumping up through a one-way platform or touching a wall from behind does nothing.
+- After a sideways launch, the player can't steer left/right for **0.4 seconds**. Otherwise the Player script would brake the sideways movement almost instantly and a bouncy wall would barely push. Bouncy does this by briefly changing the Player's own *Acceleration* setting, so the original Player script didn't need to change.
 - The original Player script briefly stops gravity right after touching the ground ("coyote time"); Bouncy resets that timer so the bounce height is accurate.
 - After each bounce it emits a `bounced` signal, which other scripts can connect to (for example to count bounces or play an effect).
 
@@ -282,7 +311,7 @@ The **Bouncy Pad** (`bouncy_pad.gd`) is a solid **StaticBody2D** with a picture 
 
 Both scripts are short and fully commented — open them from `components/bouncy/` in the editor (or read them in [`bouncy-asset/`](bouncy-asset/)).
 
-We tested the bounce height with automated tests in Godot 4.7.2: the measured height is within about 2% of the Bounce Height setting (including with changed gravity and with the hold-jump boost).
+We tested the bounce height with automated tests in Godot 4.7.2: the measured height is within about 2% of the Bounce Height setting (including with changed gravity and with the hold-jump boost). We also tested walls facing left and right, 45° slopes and Launch Angles: the player is launched at exactly the angle the arrow shows, and touching a wall from behind does nothing.
 
 ---
 

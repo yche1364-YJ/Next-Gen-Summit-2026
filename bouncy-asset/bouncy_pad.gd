@@ -5,6 +5,9 @@ extends StaticBody2D
 ## and swap in your own PNG to change how it looks.
 ## [br][br]
 ## The origin is at the bottom-centre of the picture, so place it on the ground.
+## [br][br]
+## Rotate it (Transform → Rotation) to make a bouncy wall or slope: it always
+## launches the player out of its face. A yellow arrow in the editor shows where.
 
 const DEFAULT_TEXTURE := preload("res://components/bouncy/bouncy_pad.png")
 
@@ -15,6 +18,13 @@ const DEFAULT_TEXTURE := preload("res://components/bouncy/bouncy_pad.png")
 ## How high (in pixels) the player is launched. A normal jump is about 395 px.
 @export_range(0, 3000, 10, "or_greater", "suffix:px") var bounce_height: float = 600.0:
 	set = _set_bounce_height
+
+## Tilts the launch direction, in degrees. [code]0[/code] = straight out of the
+## pad. Positive tilts clockwise, negative counterclockwise; the yellow arrow in
+## the editor shows the direction. To make a bouncy wall, rotate the whole pad
+## instead (Transform → Rotation, e.g. 90 or -90).
+@export_range(-180, 180, 1, "suffix:°") var launch_angle: float = 0.0:
+	set = _set_launch_angle
 
 ## Extra height (in %) when the player holds the jump key while landing.
 @export_range(0, 200, 5, "suffix:%") var hold_jump_boost: float = 30.0:
@@ -44,6 +54,11 @@ func _set_texture(value: Texture2D) -> void:
 
 func _set_bounce_height(value: float) -> void:
 	bounce_height = value
+	_update()
+
+
+func _set_launch_angle(value: float) -> void:
+	launch_angle = value
 	_update()
 
 
@@ -85,6 +100,7 @@ func _update() -> void:
 	_bouncy.zone_width = size.x
 
 	_bouncy.bounce_height = bounce_height
+	_bouncy.launch_angle = launch_angle
 	_bouncy.hold_jump_boost = hold_jump_boost
 	_bouncy.squash_effect = squash_effect
 	_bouncy.squash_node = _sprite
