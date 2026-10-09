@@ -199,7 +199,7 @@ def card(info: dict, ok: bool, has_thumb: bool) -> str:
         {f'<div class="controls"><span>Controls</span>{controls}</div>' if controls else ''}
         <div class="actions">
           {play}
-          <a class="btn" href="{source}">Download source</a>
+          <a class="btn" href="{source}" title="Download the source ZIP">Download</a>
         </div>
       </div>
     </article>"""
@@ -225,14 +225,13 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   body {{ margin:0; background:var(--bg); color:var(--text); font-family:Poppins,system-ui,sans-serif; }}
   a {{ color:inherit; }}
   .banner {{ display:block; width:100%; aspect-ratio:5/1; object-fit:cover; object-position:center; border-bottom:1px solid var(--line); }}
-  .page {{ max-width:1200px; margin:0 auto; padding:28px 16px 48px; display:grid; grid-template-columns:minmax(0,1fr) 300px; grid-template-areas:'intro tools' 'grid tools'; column-gap:32px; row-gap:20px; align-items:start; }}
+  .page {{ max-width:1440px; margin:0 auto; padding:28px 16px 48px; display:grid; grid-template-columns:minmax(0,1fr) 240px; grid-template-areas:'intro tools' 'grid tools'; column-gap:24px; row-gap:20px; align-items:start; }}
   .intro {{ grid-area:intro; }}
-  @media (max-width:860px) {{ .page {{ grid-template-columns:minmax(0,1fr); grid-template-areas:'intro' 'tools' 'grid'; }} .tools {{ position:static !important; }} }}
   h1 {{ margin:0; font-size:clamp(1.6rem,3.5vw,2.4rem); line-height:1.15; }}
   h1 .plus {{ color:var(--pink); }} h1 .ch {{ color:var(--yellow); }}
   .sub {{ margin:6px 0 0; color:var(--muted); }}
   .tools {{ grid-area:tools; display:flex; flex-direction:column; align-items:stretch; gap:12px; position:sticky; top:16px; }}
-  .btn.submit {{ justify-content:center; padding:14px 24px; font-size:1.15rem; }}
+  .btn.submit {{ justify-content:center; padding:12px 18px; font-size:1.05rem; }}
   input[type=search] {{ background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:999px; padding:10px 16px; font:inherit; width:100%; }}
   .resources {{ margin:0; color:var(--muted); font-size:.9rem; padding-left:16px; }}
   .resources a {{ color:var(--text); font-weight:600; }}
@@ -241,24 +240,29 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   .btn.primary {{ background:var(--pink); border-color:var(--pink); color:#fff; }}
   .btn.ghost {{ background:transparent; color:var(--muted); }}
   .btn.disabled {{ opacity:.55; }}
-  main {{ grid-area:grid; display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }}
-  .card {{ background:var(--panel); border:1px solid var(--line); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; }}
+  main {{ grid-area:grid; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }}
+  @media (max-width:1180px) {{ main {{ grid-template-columns:repeat(3,minmax(0,1fr)); }} }}
+  @media (max-width:940px) {{ main {{ grid-template-columns:repeat(2,minmax(0,1fr)); }} }}
+  @media (max-width:860px) {{ .page {{ grid-template-columns:minmax(0,1fr); grid-template-areas:'intro' 'tools' 'grid'; }} .tools {{ position:static !important; }} }}
+  @media (max-width:520px) {{ main {{ grid-template-columns:minmax(0,1fr); }} }}
+  .card {{ background:var(--panel); border:1px solid var(--line); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; }}
   .thumb {{ position:relative; display:block; aspect-ratio:16/9; background:#000; }}
   .thumb img {{ width:100%; height:100%; object-fit:cover; display:block; image-rendering:auto; }}
   .ph {{ width:100%; height:100%; display:grid; place-items:center; align-content:center; font-size:3rem; color:var(--muted); }}
   .ph small {{ font-size:.9rem; }}
-  .play {{ position:absolute; inset:auto 12px 12px auto; background:rgba(7,8,26,.85); padding:6px 12px; border-radius:999px; font-weight:700; font-size:.9rem; }}
+  .play {{ position:absolute; inset:auto 8px 8px auto; background:rgba(7,8,26,.85); padding:4px 10px; border-radius:999px; font-weight:700; font-size:.78rem; }}
   .thumb:hover .play {{ background:var(--pink); }}
-  .body {{ padding:16px 18px 18px; display:flex; flex-direction:column; gap:8px; flex:1; }}
-  h2 {{ margin:0; font-size:1.2rem; }}
-  .team {{ margin:0; color:var(--muted); font-size:.92rem; }}
+  .body {{ padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1; }}
+  h2 {{ margin:0; font-size:1rem; line-height:1.3; }}
+  .team {{ margin:0; color:var(--muted); font-size:.8rem; }}
   .team strong {{ color:var(--yellow); font-weight:600; }}
-  .desc {{ margin:0; font-size:.95rem; line-height:1.5; }}
-  .controls {{ font-size:.85rem; color:var(--muted); border-left:3px solid var(--line); padding-left:10px; }}
-  .controls span {{ display:block; text-transform:uppercase; letter-spacing:.06em; font-size:.72rem; font-weight:700; }}
-  .actions {{ margin-top:auto; padding-top:8px; display:flex; flex-wrap:wrap; gap:8px; }}
+  .desc {{ margin:0; font-size:.82rem; line-height:1.45; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }}
+  .controls {{ font-size:.75rem; color:var(--muted); border-left:3px solid var(--line); padding-left:8px; }}
+  .controls span {{ display:block; text-transform:uppercase; letter-spacing:.06em; font-size:.65rem; font-weight:700; }}
+  .actions {{ margin-top:auto; padding-top:6px; display:flex; flex-wrap:wrap; gap:6px; }}
+  .actions .btn {{ padding:6px 12px; font-size:.8rem; }}
   .empty {{ grid-column:1/-1; text-align:center; color:var(--muted); padding:48px 0; }}
-  footer {{ max-width:1200px; margin:0 auto; padding:0 16px 40px; color:var(--muted); font-size:.85rem; }}
+  footer {{ max-width:1440px; margin:0 auto; padding:0 16px 40px; color:var(--muted); font-size:.85rem; }}
   footer a {{ color:var(--text); }}
 </style>
 </head>
