@@ -225,12 +225,15 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   body {{ margin:0; background:var(--bg); color:var(--text); font-family:Poppins,system-ui,sans-serif; }}
   a {{ color:inherit; }}
   .banner {{ display:block; width:100%; aspect-ratio:5/1; object-fit:cover; object-position:center; border-bottom:1px solid var(--line); }}
-  header {{ max-width:1200px; margin:0 auto; padding:28px 16px 8px; display:flex; flex-wrap:wrap; gap:16px; align-items:end; justify-content:space-between; }}
+  header {{ max-width:1200px; margin:0 auto; padding:28px 16px 8px; display:flex; flex-wrap:wrap; gap:16px; align-items:start; justify-content:space-between; }}
   h1 {{ margin:0; font-size:clamp(1.6rem,3.5vw,2.4rem); line-height:1.15; }}
   h1 .plus {{ color:var(--pink); }} h1 .ch {{ color:var(--yellow); }}
   .sub {{ margin:6px 0 0; color:var(--muted); }}
-  .tools {{ display:flex; gap:10px; flex-wrap:wrap; }}
-  input[type=search] {{ background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:999px; padding:10px 16px; font:inherit; min-width:min(260px,100%); }}
+  .tools {{ display:flex; flex-direction:column; align-items:stretch; gap:12px; width:min(320px,100%); }}
+  .btn.submit {{ justify-content:center; padding:14px 24px; font-size:1.15rem; }}
+  input[type=search] {{ background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:999px; padding:10px 16px; font:inherit; width:100%; }}
+  .resources {{ margin:0; color:var(--muted); font-size:.9rem; padding-left:16px; }}
+  .resources a {{ color:var(--text); font-weight:600; }}
   .btn {{ display:inline-flex; align-items:center; gap:6px; padding:9px 14px; border-radius:999px; border:1px solid var(--line); background:var(--panel); text-decoration:none; font-weight:600; font-size:.9rem; white-space:nowrap; }}
   .btn:hover {{ border-color:var(--muted); }}
   .btn.primary {{ background:var(--pink); border-color:var(--pink); color:#fff; }}
@@ -265,8 +268,9 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
     <p class="sub">Next-Gen Summit 2026</p>
   </div>
   <div class="tools">
+    <a class="btn primary submit" href="https://github.com/{REPO}/issues/new?template=submit-game.yml">Submit your game</a>
     <input type="search" id="q" placeholder="Search games, teams…" aria-label="Search games">
-    <a class="btn primary" href="https://github.com/{REPO}/issues/new?template=submit-game.yml">Submit your game</a>
+    <p class="resources">Resources: <a href="https://github.com/{REPO}">GitHub</a></p>
   </div>
 </header>
 <main id="grid">
