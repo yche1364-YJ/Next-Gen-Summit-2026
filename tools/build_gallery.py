@@ -225,11 +225,13 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   body {{ margin:0; background:var(--bg); color:var(--text); font-family:Poppins,system-ui,sans-serif; }}
   a {{ color:inherit; }}
   .banner {{ display:block; width:100%; aspect-ratio:5/1; object-fit:cover; object-position:center; border-bottom:1px solid var(--line); }}
-  header {{ max-width:1200px; margin:0 auto; padding:28px 16px 8px; display:flex; flex-wrap:wrap; gap:16px; align-items:start; justify-content:space-between; }}
+  .page {{ max-width:1200px; margin:0 auto; padding:28px 16px 48px; display:grid; grid-template-columns:minmax(0,1fr) 300px; grid-template-areas:'intro tools' 'grid tools'; column-gap:32px; row-gap:20px; align-items:start; }}
+  .intro {{ grid-area:intro; }}
+  @media (max-width:860px) {{ .page {{ grid-template-columns:minmax(0,1fr); grid-template-areas:'intro' 'tools' 'grid'; }} .tools {{ position:static !important; }} }}
   h1 {{ margin:0; font-size:clamp(1.6rem,3.5vw,2.4rem); line-height:1.15; }}
   h1 .plus {{ color:var(--pink); }} h1 .ch {{ color:var(--yellow); }}
   .sub {{ margin:6px 0 0; color:var(--muted); }}
-  .tools {{ display:flex; flex-direction:column; align-items:stretch; gap:12px; width:min(320px,100%); }}
+  .tools {{ grid-area:tools; display:flex; flex-direction:column; align-items:stretch; gap:12px; position:sticky; top:16px; }}
   .btn.submit {{ justify-content:center; padding:14px 24px; font-size:1.15rem; }}
   input[type=search] {{ background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:999px; padding:10px 16px; font:inherit; width:100%; }}
   .resources {{ margin:0; color:var(--muted); font-size:.9rem; padding-left:16px; }}
@@ -239,7 +241,7 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   .btn.primary {{ background:var(--pink); border-color:var(--pink); color:#fff; }}
   .btn.ghost {{ background:transparent; color:var(--muted); }}
   .btn.disabled {{ opacity:.55; }}
-  main {{ max-width:1200px; margin:0 auto; padding:16px 16px 48px; display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }}
+  main {{ grid-area:grid; display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }}
   .card {{ background:var(--panel); border:1px solid var(--line); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; }}
   .thumb {{ position:relative; display:block; aspect-ratio:16/9; background:#000; }}
   .thumb img {{ width:100%; height:100%; object-fit:cover; display:block; image-rendering:auto; }}
@@ -262,21 +264,21 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
 </head>
 <body>
 <img class="banner" src="assets/cover.png" alt="Threadbare + Godot Challenge">
-<header>
-  <div>
+<div class="page">
+  <div class="intro">
     <h1>Threadbare <span class="plus">+</span> Godot <span class="ch">Challenge</span></h1>
     <p class="sub">Next-Gen Summit 2026</p>
   </div>
-  <div class="tools">
+  <aside class="tools">
     <a class="btn primary submit" href="https://github.com/{REPO}/issues/new?template=submit-game.yml">Submit your game</a>
     <input type="search" id="q" placeholder="Search games, teams…" aria-label="Search games">
     <p class="resources">Resources: <a href="https://github.com/{REPO}">GitHub</a></p>
-  </div>
-</header>
-<main id="grid">
+  </aside>
+  <main id="grid">
 {cards}
 {empty}
-</main>
+  </main>
+</div>
 <footer>
   Built with <a href="https://godotengine.org">Godot Engine</a>, based on
   <a href="https://github.com/endlessm/moddable-platformer">Moddable Platformer</a> by Endless Access (MIT).
