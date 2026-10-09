@@ -180,9 +180,7 @@ def card(info: dict, ok: bool, has_thumb: bool) -> str:
     members = esc(info.get("members", ""))
     desc = esc(info.get("description", "")).replace("\n", "<br>")
     controls = esc(info.get("controls", "")).replace("\n", "<br>")
-    issue = int(info.get("issue", 0))
     source = f"https://github.com/{REPO}/raw/main/submissions/{gid}/game.zip"
-    issue_url = f"https://github.com/{REPO}/issues/{issue}"
     search = esc(" ".join([info.get("title", ""), info.get("team", ""), info.get("members", "")]).lower())
     if ok:
         thumb = f'<img src="games/{gid}/thumb.png" alt="" loading="lazy">' if has_thumb else '<div class="ph">🎮</div>'
@@ -202,7 +200,6 @@ def card(info: dict, ok: bool, has_thumb: bool) -> str:
         <div class="actions">
           {play}
           <a class="btn" href="{source}">Download source</a>
-          <a class="btn ghost" href="{issue_url}">#{issue}</a>
         </div>
       </div>
     </article>"""
@@ -265,11 +262,11 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
 <header>
   <div>
     <h1>Threadbare <span class="plus">+</span> Godot <span class="ch">Challenge</span></h1>
-    <p class="sub">Next-Gen Summit 2026 · {count} game{'s' if count != 1 else ''} made by our students. Click a game to play it in your browser.</p>
+    <p class="sub">Next-Gen Summit 2026</p>
   </div>
   <div class="tools">
     <input type="search" id="q" placeholder="Search games, teams…" aria-label="Search games">
-    <a class="btn primary" href="https://github.com/{REPO}/blob/main/SUBMIT.md">Submit your game</a>
+    <a class="btn primary" href="https://github.com/{REPO}/issues/new?template=submit-game.yml">Submit your game</a>
   </div>
 </header>
 <main id="grid">
