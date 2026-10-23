@@ -24,7 +24,6 @@ When your game is finished, upload it so it appears in the **[Game Gallery](http
 
 | Box | What to write | Example |
 |---|---|---|
-| **Class code** | The code your teacher gives you | — |
 | **Team name** | Your team's name | `The Space Hoppers` |
 | **Team members** | **First names only** | `Alex, Sam` |
 | **Game title** | Your game's name | `Super Bouncy Adventure` |
@@ -52,7 +51,7 @@ Upload the new ZIP with the **same team name**. When your teacher approves it, i
 
 | Problem | What to do |
 |---|---|
-| **"Wrong class code"** | Check the code your teacher gave you (capital letters don't matter). |
+| **"Wrong class code"** | Type the class code your teacher gives you in the **Class code** box (capital letters don't matter). |
 | **"Please fill in every box"** | Team name, team members, game title and "About your game" are all needed. |
 | **"That file is not a ZIP"** | Use **Project → Tools → Download Project Source** in Godot, and don't unzip the file. |
 | **"The ZIP file is too big"** | Remove big pictures or sounds you don't use, download the project again, and try again. |

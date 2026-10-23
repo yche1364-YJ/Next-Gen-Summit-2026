@@ -38,19 +38,25 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A submissions
-          if [ -n "$(git ls-files pending)" ]; then git add -A pending; fi
-          if git diff --cached --quiet; then
-            echo "Nothing changed."
-          else
-            git commit -m "Add game submission ${SUB_ID} (#${ISSUE})"
-            pushed=false
-            for attempt in $(seq 1 25); do
-              if git pull --rebase origin main && git push origin HEAD:main; then pushed=true; break; fi
-              sleep $(( (attempt < 6 ? attempt * 3 : 15) + RANDOM % 10 ))
-            done
-            $pushed || { echo "Could not push after 25 attempts"; exit 1; }
-          fi
+          # Many approvals can run at once. If someone else saved first, start
+          # again from the newest version and save this game on top of it.
+          pushed=false
+          for attempt in $(seq 1 25); do
+            if [ "$attempt" -gt 1 ]; then
+              git rebase --abort 2>/dev/null || true
+              git fetch -q origin main && git reset -q --hard origin/main
+              GITHUB_OUTPUT=/dev/null python3 tools/accept_submission.py > /dev/null
+            fi
+            git add -A submissions
+            if [ -n "$(git ls-files pending)" ]; then git add -A pending; fi
+            if git diff --cached --quiet; then
+              echo "Nothing to save."; pushed=true; break
+            fi
+            git commit -q -m "Add game submission ${SUB_ID} (#${ISSUE})"
+            if git push -q origin HEAD:main; then pushed=true; break; fi
+            sleep $(( (attempt < 6 ? attempt * 3 : 15) + RANDOM % 10 ))
+          done
+          $pushed || { echo "Could not save after 25 attempts"; exit 1; }
 
       - name: Start the gallery build
         if: steps.accept.outputs.ok == 'true'

@@ -87,6 +87,12 @@ The upload page sends each ZIP to a small Google Apps Script that you own. The s
 
 Open the **[upload page](https://yche1364-yj.github.io/Next-Gen-Summit-2026/upload.html)**, use your class code, team name `Teacher Test`, and upload [moddable-platformer-bouncy.zip](../../downloads/moddable-platformer-bouncy.zip). A new issue appears in **[Issues](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/issues)**. Close it without approving (or approve it to see the whole process, then [remove the game](#remove-a-game)).
 
+### The class code is filled in for students
+
+`gallery/upload-config.js` also has `window.CLASS_CODE`, set to the same code as `CLASS_CODE` in the Google script. The upload page fills it in automatically, so students never type it. **If you change `CLASS_CODE` in the script, change it in `upload-config.js` too.** To make students type the code instead, set `window.CLASS_CODE = "";`.
+
+Note: this file is public, so anyone who looks at the repository can see the code. Nothing reaches the gallery without your approval.
+
 ### Share a link with the code already filled in
 
 Add `?code=` and your class code to the upload page address, for example:
@@ -103,7 +109,7 @@ Apps Script → ⚙️ **Project Settings** → **Script Properties** → edit `
 
 ### Close uploads after the deadline
 
-Change `CLASS_CODE` to something the students don't know. To reopen, change it back.
+Change `CLASS_CODE` in the Google script to something new (and **don't** update `upload-config.js`). Students then get "Wrong class code". To reopen, change it back.
 
 > **If you edit the script code later,** use **Deploy → Manage deployments → ✏️ → Version: New version → Deploy**, so the URL stays the same.
 

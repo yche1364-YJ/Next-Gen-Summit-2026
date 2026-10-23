@@ -131,10 +131,11 @@
     document.getElementById('closed').style.display = 'block';
   }
 
-  // A link like upload.html?code=XYZ fills in the class code and hides the box.
+  // The class code from upload-config.js (or a link like upload.html?code=XYZ)
+  // is filled in automatically and the box is hidden.
   const codeInput = document.getElementById('classCode');
   const codeField = codeInput.closest('.field');
-  const codeFromLink = (new URLSearchParams(location.search).get('code') || '').trim();
+  const codeFromLink = (new URLSearchParams(location.search).get('code') || window.CLASS_CODE || '').trim();
   if (codeFromLink) { codeInput.value = codeFromLink; codeField.style.display = 'none'; }
 
   function show(kind, text) {
