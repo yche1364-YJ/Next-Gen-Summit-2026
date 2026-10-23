@@ -4,7 +4,7 @@
 
 When your game is finished, upload it so it appears in the **[Game Gallery](https://yche1364-yj.github.io/Next-Gen-Summit-2026/)**. On presentation day, we play everyone's games from there.
 
-**Only one person per team uploads. You don't need an account.**
+**Each team uploads once (not each member). You don't need an account.**
 
 ---
 

@@ -137,7 +137,7 @@ For 50–60 students (25–30 teams of two):
 |---|---|
 | **The week before** | [Set up the upload page](#2-set-up-the-upload-page-one-time-about-15-minutes) and test it. |
 | **First class** | Students follow [Step 1 and Step 2](../../README.md). Remind them to save with **Download Project Source** at the end of every class. |
-| **Submission day** | Share the [upload link with the class code](#share-a-link-with-the-code-already-filled-in) (or write the code on the board). One person per team uploads ([student guide](../submit-guide.md)). Approve the issues as they arrive. |
+| **Submission day** | Share the [upload page](https://yche1364-yj.github.io/Next-Gen-Summit-2026/upload.html) (the class code is filled in automatically). Each team uploads once ([student guide](../submit-guide.md)). Approve the issues as they arrive. |
 | **Before presentation day** | Check every team shows **▶ Play** in the gallery. Change the class code to close uploads. Test the gallery on the presentation computer. |
 
 ## 5. Presentation day

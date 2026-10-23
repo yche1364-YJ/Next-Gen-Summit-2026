@@ -47,7 +47,7 @@ Your game **must use the Bouncy Pad**, a trampoline that launches the player. Th
 
 ## Step 3 · Submit your game to the Gallery
 
-👉 **[Upload your game](https://yche1364-yj.github.io/Next-Gen-Summit-2026/upload.html)**. One person per team, no account needed.
+👉 **[Upload your game](https://yche1364-yj.github.io/Next-Gen-Summit-2026/upload.html)**. Each team uploads once; no account needed.
 
 1. In Godot, click **Project → Tools → Download Project Source** to get your game's ZIP.
 2. Open the upload page, fill in your team and game, and choose your ZIP.
