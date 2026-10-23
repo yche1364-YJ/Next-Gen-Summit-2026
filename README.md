@@ -15,7 +15,7 @@ You only need **3 steps**. Use **Chrome or Edge on a laptop or desktop computer*
 2. **Open the Godot web editor:** 👉 **https://editor.godotengine.org/releases/latest/**
    If a notice appears, click **OK - Don't Show Again**.
 3. Next to **Preload project ZIP**, click **Choose File** and pick the ZIP you downloaded.
-4. Click **Start Godot Editor**, wait a few seconds, then click **Install** (only once).
+4. Click **Start Godot Editor** and wait a few seconds.
 5. The game opens. Click **2D** at the top to see the level, and press **F5** to play.
 
 > 💾 **Save your work every time!** Your game is saved **only inside this browser**. Before you leave, click **Project → Tools → Download Project Source** to download a ZIP of your game.

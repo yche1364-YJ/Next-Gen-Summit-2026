@@ -163,8 +163,6 @@ The solid area and the bounce zone **resize automatically** to fit your picture.
 | Problem | Solution |
 |---|---|
 | The editor won't start or shows a warning about missing features | Use an up-to-date **Chrome or Edge** on a computer. |
-| A long warning listing files that *"failed extraction from package"* appears | You probably clicked **Install** twice. Click OK; the project from the first click is fine. |
-| *"The selected path is not empty"* | Change the **Project Name** in the Install window to a new name. |
 | The editor shows an empty 3D grid | Click **2D** at the top of the screen. |
 | The keyboard doesn't control the player | Click once on the game picture first. |
 | I can't find the Bouncy Pad | It's in `components/bouncy/` — see [Where is the Bouncy Pad?](#where-is-the-bouncy-pad) |
