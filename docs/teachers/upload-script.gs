@@ -105,21 +105,33 @@ function slugify(text) {
 }
 
 function github(token, method, path, payload) {
-  var res = UrlFetchApp.fetch('https://api.github.com' + path, {
-    method: method,
-    contentType: 'application/json',
-    payload: JSON.stringify(payload),
-    headers: {
-      Authorization: 'Bearer ' + token,
-      Accept: 'application/vnd.github+json'
-    },
-    muteHttpExceptions: true
-  });
-  var code = res.getResponseCode();
-  if (code >= 300) {
-    throw new Error('GitHub ' + code + ': ' + res.getContentText().slice(0, 200));
+  // Many teams may upload at the same moment. GitHub can then answer
+  // 409 (two saves at once), 5xx, or a short rate limit (403/429), so wait a
+  // little and try again instead of failing.
+  var lastError = '';
+  for (var attempt = 1; attempt <= 8; attempt++) {
+    var res = UrlFetchApp.fetch('https://api.github.com' + path, {
+      method: method,
+      contentType: 'application/json',
+      payload: JSON.stringify(payload),
+      headers: {
+        Authorization: 'Bearer ' + token,
+        Accept: 'application/vnd.github+json'
+      },
+      muteHttpExceptions: true
+    });
+    var code = res.getResponseCode();
+    var text = res.getContentText();
+    if (code < 300) {
+      return JSON.parse(text);
+    }
+    lastError = 'GitHub ' + code + ': ' + text.slice(0, 200);
+    var retry = code === 409 || code === 429 || code >= 500 ||
+      (code === 403 && /rate limit/i.test(text));
+    if (!retry) break;
+    Utilities.sleep(1500 * attempt + Math.floor(Math.random() * 2000));
   }
-  return JSON.parse(res.getContentText());
+  throw new Error(lastError);
 }
 
 function reply(obj) {

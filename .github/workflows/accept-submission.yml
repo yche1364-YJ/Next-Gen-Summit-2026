@@ -45,11 +45,11 @@ jobs:
           else
             git commit -m "Add game submission ${SUB_ID} (#${ISSUE})"
             pushed=false
-            for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            for attempt in $(seq 1 25); do
               if git pull --rebase origin main && git push origin HEAD:main; then pushed=true; break; fi
-              sleep $(( attempt * 3 + RANDOM % 7 ))
+              sleep $(( (attempt < 6 ? attempt * 3 : 15) + RANDOM % 10 ))
             done
-            $pushed || { echo "Could not push after 10 attempts"; exit 1; }
+            $pushed || { echo "Could not push after 25 attempts"; exit 1; }
           fi
 
       - name: Start the gallery build

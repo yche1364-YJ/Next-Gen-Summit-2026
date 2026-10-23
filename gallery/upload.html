@@ -183,8 +183,20 @@
         description: v('description'), controls: v('controls'), scene: v('scene') || 'main.tscn',
         fileName: file.name, zip: await toBase64(file)
       };
-      const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
-      const data = await res.json();
+      // If the server is busy (many teams uploading at once), it may answer
+      // with an error page instead of JSON. Wait a few seconds and try again.
+      const body = JSON.stringify(payload);
+      let data = null;
+      for (let attempt = 1; attempt <= 4 && !data; attempt++) {
+        try {
+          const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body });
+          data = await res.json();
+        } catch (netErr) {
+          if (attempt === 4) throw new Error('The upload server is busy. Please wait a minute and try again.');
+          show('info', 'Lots of teams are uploading right now. Trying again… please keep this page open.');
+          await new Promise(r => setTimeout(r, 3000 * attempt + Math.random() * 4000));
+        }
+      }
       if (!data.ok) throw new Error(data.error || 'Upload failed.');
       form.style.display = 'none';
       document.getElementById('done').style.display = 'block';
