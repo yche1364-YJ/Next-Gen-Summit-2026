@@ -87,6 +87,16 @@ The upload page sends each ZIP to a small Google Apps Script that you own. The s
 
 Open the **[upload page](https://yche1364-yj.github.io/Next-Gen-Summit-2026/upload.html)**, use your class code, team name `Teacher Test`, and upload [moddable-platformer-bouncy.zip](../../downloads/moddable-platformer-bouncy.zip). A new issue appears in **[Issues](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/issues)**. Close it without approving (or approve it to see the whole process, then [remove the game](#remove-a-game)).
 
+### Share a link with the code already filled in
+
+Add `?code=` and your class code to the upload page address, for example:
+
+```
+https://yche1364-yj.github.io/Next-Gen-Summit-2026/upload.html?code=bounce26
+```
+
+Students who open this link don't need to type the code (the box is hidden). Share it only with your class (on the board, in your class chat, or as a QR code), not in public places.
+
 ### Change the class code
 
 Apps Script → ⚙️ **Project Settings** → **Script Properties** → edit `CLASS_CODE`. It works immediately; you don't need to deploy again.
@@ -121,7 +131,7 @@ For 50–60 students (25–30 teams of two):
 |---|---|
 | **The week before** | [Set up the upload page](#2-set-up-the-upload-page-one-time-about-15-minutes) and test it. |
 | **First class** | Students follow [Step 1 and Step 2](../../README.md). Remind them to save with **Download Project Source** at the end of every class. |
-| **Submission day** | Write the **class code** on the board. One person per team uploads ([student guide](../submit-guide.md)). Approve the issues as they arrive. |
+| **Submission day** | Share the [upload link with the class code](#share-a-link-with-the-code-already-filled-in) (or write the code on the board). One person per team uploads ([student guide](../submit-guide.md)). Approve the issues as they arrive. |
 | **Before presentation day** | Check every team shows **▶ Play** in the gallery. Change the class code to close uploads. Test the gallery on the presentation computer. |
 
 ## 5. Presentation day

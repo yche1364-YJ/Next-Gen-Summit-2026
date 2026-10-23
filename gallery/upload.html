@@ -131,7 +131,17 @@
     document.getElementById('closed').style.display = 'block';
   }
 
-  function show(kind, text) { msg.className = 'msg ' + kind; msg.textContent = text; }
+  // A link like upload.html?code=XYZ fills in the class code and hides the box.
+  const codeInput = document.getElementById('classCode');
+  const codeField = codeInput.closest('.field');
+  const codeFromLink = (new URLSearchParams(location.search).get('code') || '').trim();
+  if (codeFromLink) { codeInput.value = codeFromLink; codeField.style.display = 'none'; }
+
+  function show(kind, text) {
+    msg.className = 'msg ' + kind; msg.textContent = text;
+    // If the code from the link is wrong, show the box so it can be fixed.
+    if (/class code/i.test(text)) codeField.style.display = '';
+  }
   function showFile(file) {
     if (!file) return;
     drop.classList.add('has-file');
