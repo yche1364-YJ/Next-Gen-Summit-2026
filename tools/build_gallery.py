@@ -274,7 +274,7 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
     <p class="sub">Next-Gen Summit 2026</p>
   </div>
   <aside class="tools">
-    <a class="btn primary submit" href="https://github.com/{REPO}/issues/new?template=submit-game.yml">Submit your game</a>
+    <a class="btn primary submit" href="upload.html">Submit your game</a>
     <input type="search" id="q" placeholder="Search games, teams…" aria-label="Search games">
     <p class="resources">Resources: <a href="https://github.com/{REPO}">GitHub</a></p>
   </aside>
@@ -307,6 +307,9 @@ def main() -> int:
     (SITE / "assets").mkdir(parents=True)
     (SITE / ".nojekyll").write_text("")
     shutil.copyfile(ROOT / "gallery" / "cover.png", SITE / "assets" / "cover.png")
+    for name in ("upload.html", "upload-config.js"):
+        if (ROOT / "gallery" / name).exists():
+            shutil.copyfile(ROOT / "gallery" / name, SITE / name)
     install_engine()
     CACHE_OUT.mkdir(parents=True, exist_ok=True)
 

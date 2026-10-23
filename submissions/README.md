@@ -9,4 +9,4 @@ submissions/
     info.json    ← title, team, description, controls, scene
 ```
 
-Students: don't add files here directly — use the **[submission form](../SUBMIT.md)**.
+Students: don't add files here directly — use the **[upload page](https://yche1364-yj.github.io/Next-Gen-Summit-2026/upload.html)** ([guide](../docs/submit-guide.md)).

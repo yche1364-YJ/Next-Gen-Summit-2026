@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload your game · Threadbare + Godot Challenge</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#07081a; --panel:#12142e; --line:#262a52; --text:#f2f3ff; --muted:#a9acd6; --pink:#ff5c7a; --yellow:#ffd60a; --good:#3ddc97; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:Poppins,system-ui,sans-serif; }
+  a { color:inherit; }
+  .banner { display:block; width:100%; aspect-ratio:5/1; object-fit:cover; border-bottom:1px solid var(--line); }
+  .wrap { max-width:640px; margin:0 auto; padding:28px 16px 56px; }
+  .back { color:var(--muted); font-size:.9rem; text-decoration:none; }
+  .back:hover { color:var(--text); }
+  h1 { margin:12px 0 4px; font-size:clamp(1.6rem,4vw,2.2rem); line-height:1.15; }
+  h1 span { color:var(--yellow); }
+  .lead { margin:0 0 24px; color:var(--muted); }
+  form, .panel { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px; }
+  .field { display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+  label { font-weight:600; font-size:.95rem; }
+  .hint { color:var(--muted); font-size:.8rem; }
+  input[type=text], textarea { background:var(--bg); border:1px solid var(--line); color:var(--text); border-radius:10px; padding:10px 12px; font:inherit; font-size:.95rem; width:100%; }
+  textarea { min-height:84px; resize:vertical; }
+  input:focus, textarea:focus { outline:2px solid var(--pink); outline-offset:1px; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:520px) { .row { grid-template-columns:1fr; } }
+  .drop { border:2px dashed var(--line); border-radius:12px; padding:18px; text-align:center; cursor:pointer; color:var(--muted); }
+  .drop.has-file { border-color:var(--good); color:var(--text); }
+  .drop input { display:none; }
+  .drop strong { color:var(--text); }
+  details { margin-bottom:16px; color:var(--muted); font-size:.9rem; }
+  details summary { cursor:pointer; }
+  details .field { margin-top:10px; }
+  button { width:100%; border:0; border-radius:999px; padding:14px; font:inherit; font-weight:700; font-size:1.05rem; background:var(--pink); color:#fff; cursor:pointer; }
+  button:disabled { opacity:.6; cursor:wait; }
+  .msg { margin-top:14px; padding:12px 14px; border-radius:10px; font-size:.92rem; display:none; }
+  .msg.error { display:block; background:rgba(255,92,122,.12); border:1px solid var(--pink); }
+  .msg.info { display:block; background:rgba(255,214,10,.08); border:1px solid var(--yellow); }
+  .done { display:none; text-align:center; }
+  .done .big { font-size:2.6rem; }
+  .done h2 { margin:6px 0; }
+  .done p { color:var(--muted); }
+  .btn { display:inline-block; margin-top:8px; padding:10px 18px; border-radius:999px; background:var(--pink); color:#fff; text-decoration:none; font-weight:600; }
+  .closed { display:none; }
+</style>
+<script src="upload-config.js"></script>
+</head>
+<body>
+<img class="banner" src="assets/cover.png" alt="Threadbare + Godot Challenge">
+<div class="wrap">
+  <a class="back" href="./">← Back to the Game Gallery</a>
+  <h1>Upload your <span>game</span></h1>
+  <p class="lead">One person per team. No account needed.</p>
+
+  <div class="panel closed" id="closed">
+    <p><strong>Uploads aren't open yet.</strong></p>
+    <p class="hint">Please ask your teacher.</p>
+  </div>
+
+  <form id="form" novalidate>
+    <div class="field">
+      <label for="classCode">Class code</label>
+      <input type="text" id="classCode" autocomplete="off" required placeholder="Your teacher will give you this">
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="team">Team name</label>
+        <input type="text" id="team" maxlength="60" required placeholder="The Space Hoppers">
+      </div>
+      <div class="field">
+        <label for="members">Team members</label>
+        <input type="text" id="members" maxlength="120" required placeholder="Alex, Sam">
+        <span class="hint">First names only.</span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="title">Game title</label>
+      <input type="text" id="title" maxlength="60" required placeholder="Super Bouncy Adventure">
+    </div>
+    <div class="field">
+      <label for="description">About your game</label>
+      <textarea id="description" maxlength="600" required placeholder="What is the goal? How did you use the Bouncy Pad?"></textarea>
+    </div>
+    <div class="field">
+      <label for="controls">Controls</label>
+      <input type="text" id="controls" maxlength="300" value="Player One: ← → to move, ↑ to jump">
+    </div>
+    <div class="field">
+      <label>Game ZIP file</label>
+      <label class="drop" id="drop">
+        <input type="file" id="zip" accept=".zip,application/zip">
+        <span id="dropText"><strong>Click to choose your ZIP</strong><br>or drag it here</span>
+      </label>
+      <span class="hint">In Godot: <strong>Project → Tools → Download Project Source</strong>. Don't unzip it.</span>
+    </div>
+    <details>
+      <summary>Advanced</summary>
+      <div class="field">
+        <label for="scene">Scene to play</label>
+        <input type="text" id="scene" value="main.tscn">
+        <span class="hint">Only change this if you built your game in a different scene.</span>
+      </div>
+    </details>
+    <button type="submit" id="send">Upload my game</button>
+    <div class="msg" id="msg"></div>
+  </form>
+
+  <div class="panel done" id="done">
+    <div class="big">🎉</div>
+    <h2>Uploaded!</h2>
+    <p>Your teacher will check your game. After that, it will appear in the Game Gallery.</p>
+    <a class="btn" href="./">Go to the Game Gallery</a>
+  </div>
+</div>
+<script>
+  const MAX = 20 * 1024 * 1024;
+  const url = (window.UPLOAD_URL || '').trim();
+  const form = document.getElementById('form');
+  const msg = document.getElementById('msg');
+  const send = document.getElementById('send');
+  const zipInput = document.getElementById('zip');
+  const drop = document.getElementById('drop');
+  const dropText = document.getElementById('dropText');
+
+  if (!url) {
+    form.style.display = 'none';
+    document.getElementById('closed').style.display = 'block';
+  }
+
+  function show(kind, text) { msg.className = 'msg ' + kind; msg.textContent = text; }
+  function showFile(file) {
+    if (!file) return;
+    drop.classList.add('has-file');
+    dropText.innerHTML = '';
+    const s = document.createElement('strong'); s.textContent = '✓ ' + file.name;
+    dropText.append(s, document.createElement('br'), (file.size / 1024 / 1024).toFixed(1) + ' MB · click to change');
+  }
+  zipInput.addEventListener('change', () => { showFile(zipInput.files[0]); msg.className = 'msg'; });
+  ['dragover', 'dragenter'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('has-file'); }));
+  drop.addEventListener('dragleave', () => { if (!zipInput.files[0]) drop.classList.remove('has-file'); });
+  drop.addEventListener('drop', e => {
+    e.preventDefault();
+    if (e.dataTransfer.files[0]) { zipInput.files = e.dataTransfer.files; showFile(zipInput.files[0]); }
+  });
+
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(String(r.result).split(',')[1] || '');
+      r.onerror = () => reject(r.error);
+      r.readAsDataURL(file);
+    });
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const v = id => document.getElementById(id).value.trim();
+    const file = zipInput.files[0];
+    if (!v('classCode') || !v('team') || !v('members') || !v('title') || !v('description')) return show('error', 'Please fill in every box.');
+    if (!file) return show('error', 'Please choose your game ZIP file.');
+    if (!/\.zip$/i.test(file.name)) return show('error', 'That file is not a ZIP. In Godot, use Project → Tools → Download Project Source.');
+    if (file.size > MAX) return show('error', 'The ZIP file is too big (max 20 MB).');
+
+    send.disabled = true; send.textContent = 'Uploading…';
+    show('info', 'Uploading your game. This can take up to a minute — please keep this page open.');
+    try {
+      const payload = {
+        classCode: v('classCode'), team: v('team'), members: v('members'), title: v('title'),
+        description: v('description'), controls: v('controls'), scene: v('scene') || 'main.tscn',
+        fileName: file.name, zip: await toBase64(file)
+      };
+      const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'Upload failed.');
+      form.style.display = 'none';
+      document.getElementById('done').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      show('error', (err && err.message) ? err.message : 'Upload failed. Please try again.');
+      send.disabled = false; send.textContent = 'Upload my game';
+    }
+  });
+</script>
+</body>
+</html>
