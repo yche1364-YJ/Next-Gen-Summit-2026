@@ -31,7 +31,7 @@ When your game is finished, upload it so it appears in the **[Game Gallery](http
 | **Controls** | How to play (already filled in; change it if you added keys) | `Player One: ← → to move, ↑ to jump` |
 | **Game ZIP file** | Click the box and choose your ZIP (or drag it in) | — |
 
-> **Advanced → Scene to play:** leave it as `main.tscn`, unless you built your game in a different scene.
+> **Made a new scene?** The Gallery plays what you see when you press **F5**. If F5 doesn't start your game, right-click your scene in the **FileSystem** panel → **Set as Main Scene**, press **F5** to check, then download the ZIP again.
 
 ## 3. Upload
 
@@ -58,6 +58,6 @@ Upload the new ZIP with the **same team name**. When your teacher approves it, i
 | **"Uploads aren't open yet"** | Your teacher hasn't opened uploads yet. Ask your teacher. |
 | I can't find my ZIP | Look in your **Downloads** folder. The name ends with `.zip`. |
 | My game isn't in the Gallery yet | Your teacher still needs to check it. Ask your teacher. |
-| My game looks different in the Gallery | Check that **Scene to play** is the scene you tested, then upload again. |
+| My game looks different in the Gallery | Press **F5** in Godot. If that's not your game, right-click your scene → **Set as Main Scene**, then download the ZIP and upload again. |
 
 Is the upload page not working at all? Give your ZIP to your teacher, together with your team name, first names, game title and a short description. Your teacher can submit it for you.

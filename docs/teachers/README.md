@@ -123,7 +123,7 @@ Change `CLASS_CODE` in the Google script to something new (and **don't** update 
 
 What happens next:
 - ✅ **OK:** the game is saved, the gallery rebuilds, and a comment with the play link is added (label `published`).
-- ⚠️ **Problem** (not a Godot project, wrong scene name): a comment explains it, and the label changes to `needs-fix`. Tell the team to fix it and upload again.
+- ⚠️ **Problem** (for example, not a Godot project): a comment explains it, and the label changes to `needs-fix`. Tell the team to fix it and upload again.
 
 **Updated games:** when a team uploads again, you get a new issue. Approve it, and it replaces their old game (matched by team name). Close the old issue.
 
@@ -158,7 +158,7 @@ For 50–60 students (25–30 teams of two):
 
 **The upload page doesn't work at all.** Collect the team's ZIP, team name, first names, title and description, then upload it yourself on the upload page.
 
-**A game shows "Coming soon".** It was accepted but couldn't be exported. Open the latest **[Build game gallery](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/actions/workflows/build-gallery.yml)** run: the summary lists which game failed and why. Usually it's a script error (the team should press F5, fix it and upload again) or the wrong **Scene to play**. To rebuild by hand: **Run workflow**.
+**A game shows "Coming soon".** It was accepted but couldn't be exported. Open the latest **[Build game gallery](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/actions/workflows/build-gallery.yml)** run: the summary lists which game failed and why. Usually it's a script error (the team should press F5, fix it and upload again) or the game starts in the wrong scene (the team should right-click their scene → **Set as Main Scene**, check with F5, and upload again). To rebuild by hand: **Run workflow**.
 
 ### Remove a game
 

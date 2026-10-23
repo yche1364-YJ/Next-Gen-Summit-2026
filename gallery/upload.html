@@ -32,9 +32,6 @@
   .drop.has-file { border-color:var(--good); color:var(--text); }
   .drop input { display:none; }
   .drop strong { color:var(--text); }
-  details { margin-bottom:16px; color:var(--muted); font-size:.9rem; }
-  details summary { cursor:pointer; }
-  details .field { margin-top:10px; }
   button { width:100%; border:0; border-radius:999px; padding:14px; font:inherit; font-weight:700; font-size:1.05rem; background:var(--pink); color:#fff; cursor:pointer; }
   button:disabled { opacity:.6; cursor:wait; }
   .msg { margin-top:14px; padding:12px 14px; border-radius:10px; font-size:.92rem; display:none; }
@@ -97,14 +94,6 @@
       </label>
       <span class="hint">Max 20 MB.</span>
     </div>
-    <details>
-      <summary>Advanced</summary>
-      <div class="field">
-        <label for="scene">Scene to play</label>
-        <input type="text" id="scene" value="main.tscn">
-        <span class="hint">Only change this if you built your game in a different scene.</span>
-      </div>
-    </details>
     <button type="submit" id="send">Upload my game</button>
     <div class="msg" id="msg"></div>
   </form>
@@ -181,7 +170,7 @@
     try {
       const payload = {
         classCode: v('classCode'), team: v('team'), members: v('members'), title: v('title'),
-        description: v('description'), controls: v('controls'), scene: v('scene') || 'main.tscn',
+        description: v('description'), controls: v('controls'), scene: 'main.tscn',
         fileName: file.name, zip: await toBase64(file)
       };
       // If the server is busy (many teams uploading at once), it may answer
