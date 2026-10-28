@@ -231,9 +231,12 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   h1 {{ margin:0; font-size:clamp(1.6rem,3.5vw,2.4rem); line-height:1.15; }}
   h1 .plus {{ color:var(--pink); }} h1 .ch {{ color:var(--yellow); }}
   .sub {{ margin:6px 0 0; color:var(--muted); }}
-  .title-row {{ display:flex; align-items:center; flex-wrap:wrap; gap:12px 24px; }}
+  .title-row {{ display:flex; align-items:center; flex-wrap:wrap; gap:12px; }}
+  .title-row h1 {{ margin-right:12px; }}
   .btn.download {{ border-color:var(--yellow); color:var(--yellow); padding:10px 18px; font-size:.95rem; }}
   .btn.download:hover {{ background:var(--yellow); color:var(--bg); }}
+  .btn.download.editor {{ border-color:var(--muted); color:var(--text); }}
+  .btn.download.editor:hover {{ background:var(--text); color:var(--bg); }}
   .tools {{ grid-area:tools; display:flex; flex-direction:column; align-items:stretch; gap:12px; position:sticky; top:16px; }}
   .btn.submit {{ justify-content:center; padding:12px 18px; font-size:1.05rem; }}
   input[type=search] {{ background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:999px; padding:10px 16px; font:inherit; width:100%; }}
@@ -277,6 +280,7 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   <div class="intro">
     <div class="title-row">
       <h1>Threadbare <span class="plus">+</span> Godot <span class="ch">Challenge</span></h1>
+      <a class="btn download editor" href="https://editor.godotengine.org/releases/latest/" target="_blank" rel="noopener">Open Godot Editor</a>
       <a class="btn download" href="https://github.com/{REPO}/raw/main/downloads/moddable-platformer-bouncy.zip">⬇ Download the starter game (ZIP)</a>
     </div>
     <p class="sub">Next-Gen Summit 2026</p>
