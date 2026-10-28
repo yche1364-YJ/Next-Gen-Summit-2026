@@ -42,6 +42,7 @@ CACHE_IN = Path(os.environ.get("CACHE_IN", "build-cache-in"))
 CACHE_OUT = Path(os.environ.get("CACHE_OUT", "build-cache-out"))
 SITE = Path(os.environ.get("SITE", "site"))
 REPO = os.environ.get("REPO", "yche1364-YJ/Next-Gen-Summit-2026")
+TUTORIALS_URL = "https://elemental-nut-6d1.notion.site/next-gen-threadbare"
 
 ENGINE_FILES = ["godot.js", "godot.wasm", "godot.audio.worklet.js", "godot.audio.position.worklet.js"]
 GAME_FILES = ["index.html", "index.pck", "index.png", "index.icon.png", "index.apple-touch-icon.png", "thumb.png"]
@@ -236,6 +237,7 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   .tools {{ grid-area:tools; display:flex; flex-direction:column; align-items:stretch; gap:12px; position:sticky; top:16px; }}
   .btn.submit {{ justify-content:center; padding:12px 18px; font-size:1.05rem; }}
   input[type=search] {{ background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:999px; padding:10px 16px; font:inherit; width:100%; }}
+  .btn.tut {{ margin-top:14px; border-color:var(--muted); color:var(--text); }}
   .resources {{ margin:0; color:var(--muted); font-size:.9rem; padding-left:16px; }}
   .resources a {{ color:var(--text); font-weight:600; }}
   .btn {{ display:inline-flex; align-items:center; gap:6px; padding:9px 14px; border-radius:999px; border:1px solid var(--line); background:var(--panel); text-decoration:none; font-weight:600; font-size:.9rem; white-space:nowrap; }}
@@ -282,6 +284,7 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   <aside class="tools">
     <a class="btn primary submit" href="upload.html">Submit your game</a>
     <input type="search" id="q" placeholder="Search games, teams…" aria-label="Search games">
+    <a class="btn submit tut" href="{TUTORIALS_URL}">Quick Tutorials</a>
     <p class="resources">Resources: <a href="https://github.com/{REPO}">GitHub</a></p>
   </aside>
   <main id="grid">

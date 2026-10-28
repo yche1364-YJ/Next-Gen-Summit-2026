@@ -57,6 +57,12 @@ Your game **must use the Bouncy Pad**, a trampoline that launches the player. Th
 
 ---
 
+## Quick tutorials
+
+Short guides for each step: 👉 **[Quick Tutorials](https://elemental-nut-6d1.notion.site/next-gen-threadbare)**
+
+---
+
 ## Want to learn more?
 
 Play **Threadbare**, the open-source game made with Godot, and find more ways to learn and create: 👉 **[Threadbare by Endless Access](https://access.endlessstudios.com/games/threadbare)**
