@@ -235,6 +235,10 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   .title-row h1 {{ margin-right:12px; }}
   .btn.download {{ border-color:var(--yellow); color:var(--yellow); padding:10px 18px; font-size:.95rem; }}
   .btn.download:hover {{ background:var(--yellow); color:var(--bg); }}
+  .to-top {{ position:fixed; right:24px; bottom:24px; width:48px; height:48px; border-radius:50%; border:2px solid var(--text); background:rgba(7,8,26,.7); color:var(--text); display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; pointer-events:none; transform:translateY(8px); transition:opacity .2s, transform .2s, background .2s, color .2s; z-index:10; }}
+  .to-top.show {{ opacity:1; pointer-events:auto; transform:none; }}
+  .to-top:hover {{ background:var(--text); color:var(--bg); }}
+  @media (max-width:520px) {{ .to-top {{ right:16px; bottom:16px; width:44px; height:44px; }} }}
   .btn.download.editor {{ border-color:var(--muted); color:var(--text); }}
   .btn.download.editor:hover {{ background:var(--text); color:var(--bg); }}
   .tools {{ grid-area:tools; display:flex; flex-direction:column; align-items:stretch; gap:12px; position:sticky; top:16px; }}
@@ -301,7 +305,14 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   <a href="https://github.com/endlessm/moddable-platformer">Moddable Platformer</a> by Endless Access (MIT).
   · <a href="https://github.com/{REPO}">Project repository</a>
 </footer>
+<button class="to-top" id="toTop" type="button" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 <script>
+  const toTop = document.getElementById('toTop');
+  const showTop = () => toTop.classList.toggle('show', window.scrollY > 400);
+  window.addEventListener('scroll', showTop, {{ passive: true }}); showTop();
+  toTop.addEventListener('click', () => window.scrollTo({{ top: 0, behavior: 'smooth' }}));
   const q = document.getElementById('q');
   q.addEventListener('input', () => {{
     const s = q.value.trim().toLowerCase();
