@@ -230,6 +230,9 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   h1 {{ margin:0; font-size:clamp(1.6rem,3.5vw,2.4rem); line-height:1.15; }}
   h1 .plus {{ color:var(--pink); }} h1 .ch {{ color:var(--yellow); }}
   .sub {{ margin:6px 0 0; color:var(--muted); }}
+  .title-row {{ display:flex; align-items:center; flex-wrap:wrap; gap:12px 24px; }}
+  .btn.download {{ border-color:var(--yellow); color:var(--yellow); padding:10px 18px; font-size:.95rem; }}
+  .btn.download:hover {{ background:var(--yellow); color:var(--bg); }}
   .tools {{ grid-area:tools; display:flex; flex-direction:column; align-items:stretch; gap:12px; position:sticky; top:16px; }}
   .btn.submit {{ justify-content:center; padding:12px 18px; font-size:1.05rem; }}
   input[type=search] {{ background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:999px; padding:10px 16px; font:inherit; width:100%; }}
@@ -270,11 +273,13 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
 <img class="banner" src="assets/cover.png" alt="Threadbare + Godot Challenge">
 <div class="page">
   <div class="intro">
-    <h1>Threadbare <span class="plus">+</span> Godot <span class="ch">Challenge</span></h1>
+    <div class="title-row">
+      <h1>Threadbare <span class="plus">+</span> Godot <span class="ch">Challenge</span></h1>
+      <a class="btn download" href="https://github.com/{REPO}/raw/main/downloads/moddable-platformer-bouncy.zip">⬇ Download the starter game (ZIP)</a>
+    </div>
     <p class="sub">Next-Gen Summit 2026</p>
   </div>
   <aside class="tools">
-    <a class="btn submit" href="https://github.com/{REPO}/raw/main/downloads/moddable-platformer-bouncy.zip">⬇ Download the starter game</a>
     <a class="btn primary submit" href="upload.html">Submit your game</a>
     <input type="search" id="q" placeholder="Search games, teams…" aria-label="Search games">
     <p class="resources">Resources: <a href="https://github.com/{REPO}">GitHub</a></p>
