@@ -206,8 +206,27 @@ def card(info: dict, ok: bool, has_thumb: bool) -> str:
     </article>"""
 
 
-def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
+def section(sec_id: str, title: str, note: str, entries: list[tuple[dict, bool, bool]]) -> str:
+    if not entries:
+        return ""
     cards = "\n".join(card(i, ok, th) for i, ok, th in entries)
+    n = len(entries)
+    return f"""
+  <section class="games" id="{sec_id}">
+    <div class="section-head"><h2>{title}</h2><span class="count">{n} game{'s' if n != 1 else ''}</span>{f'<span class="note">· {note}</span>' if note else ''}</div>
+    <div class="grid">
+{cards}
+    </div>
+  </section>"""
+
+
+def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
+    playtest = [e for e in entries if e[0].get("playtesting")]
+    others = [e for e in entries if not e[0].get("playtesting")]
+    if playtest:
+        cards = section("playtesting", "Playtesting", "on the big screen", playtest) + section("more-games", "More games", "", others)
+    else:
+        cards = section("all-games", "All games", "", others)
     count = sum(1 for _, ok, _ in entries if ok)
     empty = "" if entries else '<p class="empty">No games yet — be the first to submit yours!</p>'
     page = f"""<!doctype html>
@@ -252,11 +271,17 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   .btn.primary {{ background:var(--pink); border-color:var(--pink); color:#fff; }}
   .btn.ghost {{ background:transparent; color:var(--muted); }}
   .btn.disabled {{ opacity:.55; }}
-  main {{ grid-area:grid; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }}
-  @media (max-width:1180px) {{ main {{ grid-template-columns:repeat(3,minmax(0,1fr)); }} }}
-  @media (max-width:940px) {{ main {{ grid-template-columns:repeat(2,minmax(0,1fr)); }} }}
+  main {{ grid-area:grid; display:flex; flex-direction:column; gap:28px; }}
+  .section-head {{ display:flex; align-items:baseline; gap:10px; margin:0 0 12px; }}
+  .section-head h2 {{ margin:0; font-size:1.25rem; }}
+  .section-head .count {{ color:var(--muted); font-size:.9rem; }}
+  .section-head .note {{ color:var(--muted); font-size:.85rem; }}
+  #playtesting .section-head h2 {{ color:var(--yellow); }}
+  .grid {{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }}
+  @media (max-width:1180px) {{ .grid {{ grid-template-columns:repeat(3,minmax(0,1fr)); }} }}
+  @media (max-width:940px) {{ .grid {{ grid-template-columns:repeat(2,minmax(0,1fr)); }} }}
   @media (max-width:860px) {{ .page {{ grid-template-columns:minmax(0,1fr); grid-template-areas:'intro' 'tools' 'grid'; }} .tools {{ position:static !important; }} }}
-  @media (max-width:520px) {{ main {{ grid-template-columns:minmax(0,1fr); }} }}
+  @media (max-width:520px) {{ .grid {{ grid-template-columns:minmax(0,1fr); }} }}
   .card {{ background:var(--panel); border:1px solid var(--line); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; }}
   .thumb {{ position:relative; display:block; aspect-ratio:16/9; background:#000; }}
   .thumb img {{ width:100%; height:100%; object-fit:cover; display:block; image-rendering:auto; }}
@@ -317,6 +342,7 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   q.addEventListener('input', () => {{
     const s = q.value.trim().toLowerCase();
     document.querySelectorAll('.card').forEach(c => {{ c.hidden = s && !c.dataset.search.includes(s); }});
+    document.querySelectorAll('section.games').forEach(sec => {{ sec.hidden = !sec.querySelector('.card:not([hidden])'); }});
   }});
 </script>
 </body>
@@ -362,6 +388,21 @@ def main() -> int:
             shutil.copytree(out, new_cache, dirs_exist_ok=True)
         entries.append((info, ok, (out / "thumb.png").exists()))
         report.append(f"| [{info.get('title','')}](https://github.com/{REPO}/issues/{info.get('issue')}) | {info.get('team','')} | {status} |")
+
+    # Teams marked for playtesting: the `playtesting` label on their issue
+    # (read before the build by the workflow), falling back to info.json.
+    playtest_file = os.environ.get("PLAYTESTING_FILE")
+    labelled = None
+    if playtest_file and Path(playtest_file).exists():
+        try:
+            labelled = set(json.loads(Path(playtest_file).read_text(encoding="utf-8")))
+        except (ValueError, OSError):
+            labelled = None
+    for info, _, _ in entries:
+        if labelled is not None:
+            info["playtesting"] = int(info.get("issue", 0)) in labelled
+        else:
+            info["playtesting"] = bool(info.get("playtesting"))
 
     entries.sort(key=lambda e: int(e[0].get("issue", 0)))
     write_gallery(entries)

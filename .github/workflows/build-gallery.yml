@@ -20,6 +20,7 @@ concurrency:
 
 permissions:
   contents: read
+  issues: read
 
 env:
   GODOT_VERSION: "4.7.2"
@@ -30,9 +31,20 @@ jobs:
     timeout-minutes: 120
     permissions:
       contents: read
+      issues: read
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      # Which games are in the "Playtesting" section: issues with the
+      # `playtesting` label. Read here, so the build step needs no token.
+      - name: Read playtesting labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/issues?labels=playtesting&state=all&per_page=100" \
+            --jq '.[].number' | jq -s . > playtesting.json || echo "[]" > playtesting.json
+          cat playtesting.json
 
       # Godot + web export templates (cached; saved right after download,
       # before any student project is opened).
@@ -88,6 +100,7 @@ jobs:
           CACHE_OUT: build-cache-new
           SITE: site
           REPO: ${{ github.repository }}
+          PLAYTESTING_FILE: playtesting.json
         run: python3 tools/build_gallery.py
 
       - name: Prepare build cache

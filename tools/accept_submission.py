@@ -222,6 +222,7 @@ def main() -> int:
         "description": description,
         "controls": controls,
         "scene": scene,
+        "playtesting": any(l.get("name") == "playtesting" for l in issue.get("labels", [])),
         "submitted_by": issue.get("user", {}).get("login", ""),
         "approved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }

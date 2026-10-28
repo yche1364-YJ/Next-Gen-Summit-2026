@@ -69,6 +69,7 @@ function doPost(e) {
       '### Team members', members,
       '### About the game', description,
       '### Controls', controls || '_No response_',
+      '### Playtesting on the big screen', data.playtest ? 'Yes' : 'No',
       '### Scene to play', scene,
       '### Game ZIP file', '[' + slugify(team) + '.zip](' + rawUrl + ')',
       '### Checklist', '- [X] Submitted with the upload page (no GitHub account needed)'
@@ -76,7 +77,7 @@ function doPost(e) {
     var issue = github(token, 'POST', '/repos/' + repo + '/issues', {
       title: '[Game] ' + title,
       body: body,
-      labels: ['submission']
+      labels: data.playtest ? ['submission', 'playtesting'] : ['submission']
     });
 
     return reply({ ok: true, number: issue.number });

@@ -30,6 +30,7 @@ When your game is finished, upload it so it appears in the **[Game Gallery](http
 | **About your game** | 1–3 sentences: the goal, and how you used the Bouncy Pad | `Bounce off the walls to reach the secret coin!` |
 | **Controls** | How to play (already filled in; change it if you added keys) | `Player One: ← → to move, ↑ to jump` |
 | **Game ZIP file** | Click the box and choose your ZIP (or drag it in) | — |
+| **Playtesting** (checkbox) | Tick it if you'd like your game played on the big screen. It's then listed in the **Playtesting** section of the Gallery. | — |
 
 > **Made a new scene?** The Gallery plays what you see when you press **F5**. If F5 doesn't start your game, right-click your scene in the **FileSystem** panel → **Set as Main Scene**, press **F5** to check, then download the ZIP again.
 

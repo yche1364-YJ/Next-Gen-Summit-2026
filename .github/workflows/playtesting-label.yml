@@ -1,0 +1,20 @@
+name: Update playtesting section
+
+# When the teacher adds or removes the `playtesting` label on a published
+# game, rebuild the gallery so the game moves between the sections.
+on:
+  issues:
+    types: [labeled, unlabeled]
+
+permissions:
+  actions: write
+
+jobs:
+  rebuild:
+    if: github.event.label.name == 'playtesting' && contains(github.event.issue.labels.*.name, 'published')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start the gallery build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run build-gallery.yml --ref main --repo "$GITHUB_REPOSITORY"

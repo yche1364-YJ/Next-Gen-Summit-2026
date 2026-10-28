@@ -125,6 +125,8 @@ What happens next:
 - ✅ **OK:** the game is saved, the gallery rebuilds, and a comment with the play link is added (label `published`).
 - ⚠️ **Problem** (for example, not a Godot project): a comment explains it, and the label changes to `needs-fix`. Tell the team to fix it and upload again.
 
+**Playtesting section:** teams that tick *"We'd like our game playtested on the big screen"* get the **`playtesting`** label on their issue, and the Gallery shows their game in a **Playtesting** section at the top. Every other game is listed below under **More games**. To move a game between the sections, add or remove the `playtesting` label on its issue: the Gallery updates in a few minutes (the game must already be approved).
+
 **Updated games:** when a team uploads again, you get a new issue. Approve it, and it replaces their old game (matched by team name). Close the old issue.
 
 You can watch the progress in the **[Actions](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/actions)** tab.

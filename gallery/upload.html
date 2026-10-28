@@ -32,6 +32,9 @@
   .drop.has-file { border-color:var(--good); color:var(--text); }
   .drop input { display:none; }
   .drop strong { color:var(--text); }
+  .check { display:flex; gap:12px; align-items:flex-start; background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:16px; cursor:pointer; }
+  .check input { width:20px; height:20px; margin:2px 0 0; accent-color:var(--yellow); flex:none; cursor:pointer; }
+  .check strong { display:block; }
   button { width:100%; border:0; border-radius:999px; padding:14px; font:inherit; font-weight:700; font-size:1.05rem; background:var(--pink); color:#fff; cursor:pointer; }
   button:disabled { opacity:.6; cursor:wait; }
   .msg { margin-top:14px; padding:12px 14px; border-radius:10px; font-size:.92rem; display:none; }
@@ -94,6 +97,11 @@
       </label>
       <span class="hint">Max 20 MB.</span>
     </div>
+    <label class="check" for="playtest">
+      <input type="checkbox" id="playtest">
+      <span><strong>Yes! We'd like our game playtested on the big screen.</strong>
+      <span class="hint">Your game will be listed in the Playtesting section, and other people may play it in front of everyone.</span></span>
+    </label>
     <button type="submit" id="send">Upload my game</button>
     <div class="msg" id="msg"></div>
   </form>
@@ -171,6 +179,7 @@
       const payload = {
         classCode: v('classCode'), team: v('team'), members: v('members'), title: v('title'),
         description: v('description'), controls: v('controls'), scene: 'main.tscn',
+        playtest: document.getElementById('playtest').checked,
         fileName: file.name, zip: await toBase64(file)
       };
       // If the server is busy (many teams uploading at once), it may answer
