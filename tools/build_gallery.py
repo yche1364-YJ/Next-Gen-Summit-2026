@@ -274,6 +274,7 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
     <p class="sub">Next-Gen Summit 2026</p>
   </div>
   <aside class="tools">
+    <a class="btn submit" href="https://github.com/{REPO}/raw/main/downloads/moddable-platformer-bouncy.zip">⬇ Download the starter game</a>
     <a class="btn primary submit" href="upload.html">Submit your game</a>
     <input type="search" id="q" placeholder="Search games, teams…" aria-label="Search games">
     <p class="resources">Resources: <a href="https://github.com/{REPO}">GitHub</a></p>
