@@ -224,7 +224,7 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
     playtest = [e for e in entries if e[0].get("playtesting")]
     others = [e for e in entries if not e[0].get("playtesting")]
     if playtest:
-        cards = section("playtesting", "Playtesting", "on the big screen", playtest) + section("more-games", "More games", "", others)
+        cards = section("playtesting", "Playtesting", "ready for the big screen", playtest) + section("more-games", "More games", "", others)
     else:
         cards = section("all-games", "All games", "", others)
     count = sum(1 for _, ok, _ in entries if ok)
