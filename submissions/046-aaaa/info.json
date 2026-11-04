@@ -1,0 +1,14 @@
+{
+  "id": "046-aaaa",
+  "issue": 46,
+  "title": "aaaa",
+  "team": "Testing YJ",
+  "members": "YJC, YJC",
+  "mentor": "Ying-Ju Chen (Ying)",
+  "description": "jump whatever you want",
+  "controls": "Player One: ← → to move, ↑ to jump",
+  "scene": "",
+  "playtesting": true,
+  "submitted_by": "yche1364-YJ",
+  "approved_at": "2026-11-04T19:34:03+00:00"
+}
