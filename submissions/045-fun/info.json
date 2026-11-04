@@ -1,0 +1,14 @@
+{
+  "id": "045-fun",
+  "issue": 45,
+  "title": "fun",
+  "team": "d",
+  "members": "nick, testings",
+  "mentor": "Ying-Ju Chen (Ying)",
+  "description": "Goal: reach the flag\nHow we used the Bouncy Pad: cool",
+  "controls": "Player One: ← → to move, ↑ to jump",
+  "scene": "",
+  "playtesting": true,
+  "submitted_by": "yche1364-YJ",
+  "approved_at": "2026-11-04T19:09:33+00:00"
+}
