@@ -7,3 +7,8 @@ window.UPLOAD_URL = "https://script.google.com/macros/s/AKfycbyHlf2a7_CfL3Xg0RZu
 // The class code (the same as CLASS_CODE in the Google script). When it's set
 // here, students don't need to type it. Leave it empty to make them type it.
 window.CLASS_CODE = "bounce26";
+
+// Mentor names for the dropdown on the upload page. Add one name per line,
+// in quotes, followed by a comma. Leave the list empty to let students type it.
+window.MENTORS = [
+];

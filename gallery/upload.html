@@ -23,6 +23,10 @@
   .field { display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
   label { font-weight:600; font-size:.95rem; }
   .hint { color:var(--muted); font-size:.8rem; }
+  select { appearance:none; -webkit-appearance:none; background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23a9acd6' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center; border:1px solid var(--line); color:var(--text); border-radius:10px; padding:10px 36px 10px 12px; font:inherit; font-size:.95rem; width:100%; cursor:pointer; }
+  select:invalid { color:var(--muted); }
+  select option { color:var(--text); background:var(--panel); }
+  select:focus { outline:2px solid var(--pink); outline-offset:1px; }
   input[type=text], input[type=email], textarea { background:var(--bg); border:1px solid var(--line); color:var(--text); border-radius:10px; padding:10px 12px; font:inherit; font-size:.95rem; width:100%; }
   textarea { min-height:84px; resize:vertical; }
   input:focus, textarea:focus { outline:2px solid var(--pink); outline-offset:1px; }
@@ -79,17 +83,17 @@
     </div>
     <div class="row">
       <div class="field">
-        <label for="team">Team name / number</label>
-        <input type="text" id="team" maxlength="60" required placeholder="Team 7 · The Space Hoppers">
+        <label for="team">Team name + number</label>
+        <input type="text" id="team" maxlength="60" required placeholder="e.g. Team 1">
       </div>
       <div class="field">
         <label for="mentor">Mentor name</label>
-        <input type="text" id="mentor" maxlength="80" required placeholder="Ms. Chen">
+        <select id="mentor" required><option value="">Choose your mentor…</option></select>
       </div>
     </div>
     <div class="members">
       <div class="members-head">Team members</div>
-      <span class="hint">Full names are <strong>private</strong>: only your teacher sees them (for microcredentials). Nicknames are <strong>public</strong> and shown in the Gallery, so don't use your real name.</span>
+      <span class="hint">Full names are <strong>private</strong>, only for microcredentials.<br>Nicknames are <strong>public</strong> and shown in the Gallery, so don't use your real name.</span>
       <div id="people"></div>
       <button type="button" class="add" id="addPerson">+ Add a team member</button>
     </div>
@@ -172,6 +176,20 @@ How we used the Bouncy Pad: </textarea>
     e.preventDefault();
     if (e.dataTransfer.files[0]) { zipInput.files = e.dataTransfer.files; showFile(zipInput.files[0]); }
   });
+
+  // Mentor list from upload-config.js (window.MENTORS). If it's empty,
+  // the dropdown turns into a text box so students can type the name.
+  (function () {
+    const sel = document.getElementById('mentor');
+    const list = (window.MENTORS || []).map(m => String(m).trim()).filter(Boolean);
+    if (!list.length) {
+      const input = document.createElement('input');
+      input.type = 'text'; input.id = 'mentor'; input.maxLength = 80; input.required = true; input.placeholder = 'Ms. Chen';
+      sel.replaceWith(input);
+      return;
+    }
+    list.forEach(name => { const o = document.createElement('option'); o.value = name; o.textContent = name; sel.appendChild(o); });
+  })();
 
   // Team members: a private full name and a public nickname. Two rows to start; up to six.
   const peopleBox = document.getElementById('people');
