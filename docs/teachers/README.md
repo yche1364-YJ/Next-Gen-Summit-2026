@@ -29,6 +29,12 @@ Student team                 Upload page + Google script         You (teacher)  
                                                                                            8. Update the gallery
 ```
 
+**Public and private information.** On the upload page each team gives a team name + number, mentor (chosen from a list), game title, and for every member a **full name (private)** and a **nickname (public)**.
+- **Public** (GitHub issue and Gallery card): team name + number, mentor, game title, nicknames, description, controls.
+- **Private** (only for microcredentials): full names. They are saved only in a Google Sheet in your Drive called **Threadbare submissions (private)**, created on the first upload. Each row also has the mentor, nicknames, the GitHub issue and the game's play link. Full names are never sent to GitHub.
+
+To change the mentor list, edit `window.MENTORS` in [gallery/upload-config.js](../../gallery/upload-config.js).
+
 - Nothing appears in the gallery until **you** add the `approved` label.
 - A game is online about **5–10 minutes** after you approve it.
 - If a team uploads again with the **same team name**, approving the new upload **replaces** their old game.
@@ -85,7 +91,7 @@ The upload page sends each ZIP to a small Google Apps Script that you own. The s
 
 ### Test it
 
-Open the **[upload page](https://yche1364-yj.github.io/Next-Gen-Summit-2026/upload.html)**, use your class code, team name `Teacher Test`, and upload [moddable-platformer-bouncy.zip](../../downloads/moddable-platformer-bouncy.zip). A new issue appears in **[Issues](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/issues)**. Close it without approving (or approve it to see the whole process, then [remove the game](#remove-a-game)).
+Open the **[upload page](https://yche1364-yj.github.io/Next-Gen-Summit-2026/upload.html)**, use your class code, team name `Teacher Test`, and upload [moddable-platformer-bouncy.zip](../../downloads/moddable-platformer-bouncy.zip). A new issue appears in **[Issues](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/issues)**, and the Google Sheet **Threadbare submissions (private)** appears in your [Google Drive](https://drive.google.com/) with a row containing the full names. Close the issue without approving (or approve it to see the whole process, then [remove the game](#remove-a-game)).
 
 ### The class code is filled in for students
 
@@ -174,7 +180,7 @@ Uploaded ZIPs are stored in `pending/` until approval. Approving moves the ZIP i
 
 - **Cost:** Google Apps Script, GitHub Actions and GitHub Pages are free.
 - **Size:** all games share one copy of the Godot engine, so each adds only 1–3 MB.
-- **Privacy:** uploaded ZIPs, issues and the gallery are **public**. Use first names only, and check your school's rules on publishing student work.
+- **Privacy:** uploaded ZIPs, issues and the gallery are **public** and show nicknames only. Full names stay in your private Google Sheet: don't share it. Check your school's rules on collecting and publishing student information.
 - **Safety:** only people with the class code can upload, and nothing is published until you approve it.
 
 <details>

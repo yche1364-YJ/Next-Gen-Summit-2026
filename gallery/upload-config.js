@@ -11,4 +11,9 @@ window.CLASS_CODE = "bounce26";
 // Mentor names for the dropdown on the upload page. Add one name per line,
 // in quotes, followed by a comma. Leave the list empty to let students type it.
 window.MENTORS = [
+  "Deepkumar Chadamiya",
+  "Anish Powar",
+  "Ying-Ju Chen (Ying)",
+  "Anjali Reddy (Kushee)",
+  "Chia-Yu Sung (Winnie)",
 ];
