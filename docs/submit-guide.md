@@ -46,7 +46,7 @@ Your teacher checks each game. After that, it appears in the **[Game Gallery](ht
 
 ## Changed your game? Upload it again
 
-Upload the new ZIP with the **same team name**. When your teacher approves it, it **replaces** your old version, so your team still has one game in the Gallery.
+Upload the new ZIP, then **tell your teacher**, so they can remove your old version from the Gallery.
 
 ---
 

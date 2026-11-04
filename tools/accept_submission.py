@@ -188,22 +188,12 @@ def main() -> int:
 
     sub_id = f"{number:03d}-{slugify(title)}"
     SUBMISSIONS.mkdir(exist_ok=True)
-    # Replace this issue's earlier version, and any earlier upload from the same
-    # team (a team that uploads an updated game keeps a single card).
-    team_key = re.sub(r"\s+", " ", team).strip().lower()
+    # Replace only this issue's own earlier version (re-approving the same
+    # issue). Uploads from the same team name are all kept, so a team that
+    # types the wrong team number can never overwrite another team's game;
+    # the teacher removes duplicates by hand.
     for old in SUBMISSIONS.iterdir():
-        if not old.is_dir():
-            continue
-        same_issue = old.name.startswith(f"{number:03d}-")
-        same_team = False
-        old_info = old / "info.json"
-        if team_key and old_info.exists():
-            try:
-                old_team = json.loads(old_info.read_text(encoding="utf-8")).get("team", "")
-                same_team = re.sub(r"\s+", " ", old_team).strip().lower() == team_key
-            except (ValueError, OSError):
-                pass
-        if same_issue or same_team:
+        if old.is_dir() and old.name.startswith(f"{number:03d}-"):
             shutil.rmtree(old)
     # The upload page stores ZIPs in pending/ until approval; remove this one now.
     m = re.search(r"/raw/main/(pending/[A-Za-z0-9._-]+\.zip)$", url)
@@ -241,7 +231,7 @@ def main() -> int:
             f"Your game **{title_md}** is being published. In about **5–10 minutes** you can play it here:\n\n"
             f"🎮 **{play_url}**\n\n"
             f"🕹️ All games: {pages_url}\n\n"
-            "Want to update your game? Upload it again on the upload page with the **same team name**; once approved, it replaces this version."
+            "Want to update your game? Upload it again on the upload page and tell your teacher, so they can remove this older version."
         ),
     )
     return 0

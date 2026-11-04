@@ -37,7 +37,7 @@ To change the mentor list, edit `window.MENTORS` in [gallery/upload-config.js](.
 
 - Nothing appears in the gallery until **you** add the `approved` label.
 - A game is online about **5–10 minutes** after you approve it.
-- If a team uploads again with the **same team name**, approving the new upload **replaces** their old game.
+- Every approved upload is kept, even with the same team name, so a wrong team number can never overwrite another team's game. Remove old or duplicate versions by hand ([Remove a game](#remove-a-game)).
 
 ## 2. Set up the upload page (one time, about 15 minutes)
 
@@ -133,7 +133,7 @@ What happens next:
 
 **Playtesting section:** teams that tick *"We'd like our game playtested on the big screen"* get the **`playtesting`** label on their issue, and the Gallery shows their game in a **Playtesting** section at the top. Every other game is listed below under **More games**. To move a game between the sections, add or remove the `playtesting` label on its issue: the Gallery updates in a few minutes (the game must already be approved).
 
-**Updated games:** when a team uploads again, you get a new issue. Approve it, and it replaces their old game (matched by team name). Close the old issue.
+**Updated games:** when a team uploads again, you get a new issue. Approve it, then [remove their old game](#remove-a-game) and close the old issue (or ask Claude to do it).
 
 You can watch the progress in the **[Actions](https://github.com/yche1364-YJ/Next-Gen-Summit-2026/actions)** tab.
 
