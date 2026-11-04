@@ -6,6 +6,11 @@
  * "submission" issue for the teacher to approve — so students never need a
  * GitHub account.
  *
+ * Team members' FULL NAMES are private: they are saved only in a Google Sheet
+ * in the teacher's Drive ("Threadbare submissions (private)", created on the
+ * first upload, for microcredentials) and never sent to GitHub. Only the
+ * nicknames are public.
+ *
  * Setup instructions: docs/teachers/README.md → "Set up the upload page".
  *
  * Script properties (Project Settings → Script properties):
@@ -13,10 +18,14 @@
  *                 with "Contents" and "Issues" set to Read and write
  *   CLASS_CODE    the code students type on the upload page (change it any time)
  *   REPO          optional, defaults to yche1364-YJ/Next-Gen-Summit-2026
+ *   (SHEET_ID is filled in by the script itself.)
  */
 
 var DEFAULT_REPO = 'yche1364-YJ/Next-Gen-Summit-2026';
 var MAX_BYTES = 20 * 1024 * 1024; // 20 MB
+var SHEET_NAME = 'Threadbare submissions (private)';
+var SHEET_HEADERS = ['Uploaded at', 'Team name / number', 'Mentor', 'Game title',
+  'Full names (private)', 'Nicknames (public)', 'Playtesting', 'GitHub issue', 'Play link (after approval)'];
 
 function doPost(e) {
   try {
@@ -35,7 +44,28 @@ function doPost(e) {
 
     var title = clean(data.title, 60);
     var team = clean(data.team, 60);
-    var members = clean(data.members, 120);
+    var mentor = clean(data.mentor, 80);
+    // New page: people = [{name (private), nickname (public)}].
+    // An older page (still open in a browser) sends only "members".
+    var legacy = !Array.isArray(data.people);
+    var people = legacy ? [] : data.people.map(function (p) {
+      return { name: clean(p && p.name, 80), nickname: clean(p && p.nickname, 30) };
+    }).filter(function (p) { return p.name || p.nickname; }).slice(0, 6);
+    if (!legacy) {
+      if (!mentor || people.length === 0) {
+        return reply({ ok: false, error: 'Please fill in every box.' });
+      }
+      for (var i = 0; i < people.length; i++) {
+        if (!people[i].name || !people[i].nickname) {
+          return reply({ ok: false, error: 'Each team member needs a full name and a nickname.' });
+        }
+        if (revealsName(people[i])) {
+          return reply({ ok: false, error: 'Please use a nickname, not your real name.' });
+        }
+      }
+    }
+    var members = legacy ? clean(data.members, 120)
+      : people.map(function (p) { return p.nickname; }).join(', ');
     var description = clean(data.description, 600);
     var controls = clean(data.controls, 300);
     var scene = clean(data.scene, 80) || 'main.tscn';
@@ -67,6 +97,7 @@ function doPost(e) {
       '### Game title', title,
       '### Team name', team,
       '### Team members', members,
+      '### Mentor', mentor || '_No response_',
       '### About the game', description,
       '### Controls', controls || '_No response_',
       '### Playtesting on the big screen', data.playtest ? 'Yes' : 'No',
@@ -80,6 +111,16 @@ function doPost(e) {
       labels: data.playtest ? ['submission', 'playtesting'] : ['submission']
     });
 
+    // Private record (full names) in the teacher's Google Sheet.
+    if (!legacy) {
+      var issueUrl = 'https://github.com/' + repo + '/issues/' + issue.number;
+      privateSheet(props).appendRow([
+        new Date(), team, mentor, title,
+        people.map(function (p) { return p.name; }).join('\n'),
+        members, data.playtest ? 'Yes' : 'No', issueUrl, playLink(repo, issue.number, title)
+      ]);
+    }
+
     return reply({ ok: true, number: issue.number });
   } catch (err) {
     return reply({ ok: false, error: 'Upload failed. Please try again, or tell your teacher. (' + err + ')' });
@@ -89,6 +130,49 @@ function doPost(e) {
 // Opening the web app URL in a browser shows this — handy to check it's deployed.
 function doGet() {
   return reply({ ok: true, message: 'Upload receiver is running.' });
+}
+
+// The game's address in the Gallery (works once the teacher approves it).
+// Same rule as tools/accept_submission.py: <issue number>-<slug of title>.
+function playLink(repo, number, title) {
+  var parts = repo.split('/');
+  var slug = String(title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+    .slice(0, 40).replace(/^-+|-+$/g, '') || 'game';
+  var id = ('00' + number).slice(-3) + '-' + slug;
+  if (String(number).length > 3) id = number + '-' + slug;
+  return 'https://' + parts[0].toLowerCase() + '.github.io/' + parts[1] + '/games/' + id + '/';
+}
+
+// True if the nickname is the person's full name or one part of it.
+function revealsName(p) {
+  var nick = p.nickname.toLowerCase().replace(/\s+/g, ' ').trim();
+  var full = p.name.toLowerCase().replace(/\s+/g, ' ').trim();
+  if (nick === full) return true;
+  return full.split(' ').some(function (part) { return part.length > 1 && part === nick; });
+}
+
+// The private Google Sheet, created on the first upload. The lock stops two
+// uploads at the same moment from creating two sheets.
+function privateSheet(props) {
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    var ss = null;
+    var id = props.getProperty('SHEET_ID');
+    try { if (id) ss = SpreadsheetApp.openById(id); } catch (e) { ss = null; }
+    if (!ss) {
+      ss = SpreadsheetApp.create(SHEET_NAME);
+      var sh = ss.getSheets()[0];
+      sh.setName('Submissions');
+      sh.appendRow(SHEET_HEADERS);
+      sh.setFrozenRows(1);
+      sh.getRange(1, 1, 1, SHEET_HEADERS.length).setFontWeight('bold');
+      props.setProperty('SHEET_ID', ss.getId());
+    }
+    return ss.getSheets()[0];
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function clean(value, maxLength) {

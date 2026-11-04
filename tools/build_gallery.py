@@ -179,10 +179,11 @@ def card(info: dict, ok: bool, has_thumb: bool) -> str:
     title = esc(info.get("title") or "Untitled game")
     team = esc(info.get("team", ""))
     members = esc(info.get("members", ""))
+    mentor = esc(info.get("mentor", ""))
     desc = esc(info.get("description", "")).replace("\n", "<br>")
     controls = esc(info.get("controls", "")).replace("\n", "<br>")
     source = f"https://github.com/{REPO}/raw/main/submissions/{gid}/game.zip"
-    search = esc(" ".join([info.get("title", ""), info.get("team", ""), info.get("members", "")]).lower())
+    search = esc(" ".join([info.get("title", ""), info.get("team", ""), info.get("members", ""), info.get("mentor", "")]).lower())
     if ok:
         thumb = f'<img src="games/{gid}/thumb.png" alt="" loading="lazy">' if has_thumb else '<div class="ph">🎮</div>'
         media = f'<a class="thumb" href="games/{gid}/" aria-label="Play {title}">{thumb}<span class="play">▶ Play</span></a>'
@@ -196,6 +197,7 @@ def card(info: dict, ok: bool, has_thumb: bool) -> str:
       <div class="body">
         <h2>{title}</h2>
         <p class="team"><strong>{team}</strong>{' · ' + members if members else ''}</p>
+        {f'<p class="mentor">Mentor: {mentor}</p>' if mentor else ''}
         <p class="desc">{desc}</p>
         {f'<div class="controls"><span>Controls</span>{controls}</div>' if controls else ''}
         <div class="actions">
@@ -264,6 +266,7 @@ def write_gallery(entries: list[tuple[dict, bool, bool]]) -> None:
   .btn.submit {{ justify-content:center; padding:12px 18px; font-size:1.05rem; }}
   input[type=search] {{ background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:999px; padding:10px 16px; font:inherit; width:100%; }}
   .btn.tut {{ margin-top:14px; border-color:var(--muted); color:var(--text); }}
+  .mentor {{ margin:-4px 0 6px; color:var(--muted); font-size:.82rem; }}
   .resources {{ margin:0; color:var(--muted); font-size:.9rem; padding-left:16px; }}
   .resources a {{ color:var(--text); font-weight:600; }}
   .btn {{ display:inline-flex; align-items:center; gap:6px; padding:9px 14px; border-radius:999px; border:1px solid var(--line); background:var(--panel); text-decoration:none; font-weight:600; font-size:.9rem; white-space:nowrap; }}

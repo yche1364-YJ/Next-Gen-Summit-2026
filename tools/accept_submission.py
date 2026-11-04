@@ -149,6 +149,7 @@ def main() -> int:
     title = clean(section(body, "Game title"), 60) or clean(issue["title"].replace("[Game]", ""), 60)
     team = clean(section(body, "Team name"), 60)
     members = clean(section(body, "Team members"), 120)
+    mentor = clean(section(body, "Mentor"), 80)
     description = clean(section(body, "About the game"), 600)
     controls = clean(section(body, "Controls"), 300)
     scene_field = section(body, "Scene to play") or "main.tscn"
@@ -219,6 +220,7 @@ def main() -> int:
         "title": title,
         "team": team,
         "members": members,
+        "mentor": mentor,
         "description": description,
         "controls": controls,
         "scene": scene,
