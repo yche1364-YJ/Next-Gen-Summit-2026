@@ -44,10 +44,16 @@
   .tag { display:inline-block; font-size:.72rem; font-weight:600; border-radius:999px; padding:2px 8px; margin-left:4px; vertical-align:1px; }
   .tag.private { color:var(--bg); background:var(--yellow); }
   .tag.public { color:var(--text); border:1px solid var(--muted); }
-  .person { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
+  .person { display:grid; grid-template-columns:1fr 1fr 36px; gap:8px; margin-top:12px; align-items:start; }
+  .remove { width:36px; height:36px; margin-top:26px; padding:0; border-radius:50%; background:none; border:1px solid var(--line); color:var(--muted); font-size:1.3rem; line-height:1; }
+  .remove:hover { color:var(--pink); border-color:var(--pink); }
+  .remove.hidden { visibility:hidden; }
+  .nick-warn { display:none; color:var(--pink); font-size:.8rem; font-weight:600; }
+  .person.bad .nick-warn { display:block; }
+  .person.bad .pnick { border-color:var(--pink); }
   .person .field { margin:0; }
   .person label { font-size:.85rem; }
-  @media (max-width:520px) { .person { grid-template-columns:1fr; } .person + .person { border-top:1px solid var(--line); padding-top:12px; } }
+  @media (max-width:520px) { .person { grid-template-columns:1fr 36px; } .person .field { grid-column:1; } .remove { grid-column:2; grid-row:1; } .person + .person { border-top:1px solid var(--line); padding-top:12px; } }
   .add { margin-top:12px; background:none; border:1px dashed var(--line); color:var(--muted); width:auto; padding:8px 14px; font-size:.85rem; font-weight:600; border-radius:999px; }
   .add:hover { color:var(--text); border-color:var(--muted); }
   button { width:100%; border:0; border-radius:999px; padding:14px; font:inherit; font-weight:700; font-size:1.05rem; background:var(--pink); color:#fff; cursor:pointer; }
@@ -194,15 +200,30 @@ How we used the Bouncy Pad: </textarea>
   // Team members: a private full name and a public nickname. Two rows to start; up to six.
   const peopleBox = document.getElementById('people');
   const addBtn = document.getElementById('addPerson');
+  function renumber() {
+    [...peopleBox.children].forEach((row, i) => {
+      row.querySelector('.lname').textContent = 'Member ' + (i + 1) + ' full name ';
+      row.querySelector('.lnick').textContent = 'Member ' + (i + 1) + ' nickname ';
+      row.querySelector('.remove').classList.toggle('hidden', i === 0);
+    });
+    addBtn.style.display = peopleBox.children.length >= 6 ? 'none' : '';
+  }
+  function checkNick(row) {
+    const p = { name: row.querySelector('.pname').value, nickname: row.querySelector('.pnick').value };
+    row.classList.toggle('bad', !!p.name.trim() && !!p.nickname.trim() && revealsName(p));
+  }
   function addPerson() {
-    const n = peopleBox.children.length + 1;
     const row = document.createElement('div');
     row.className = 'person';
     row.innerHTML =
-      '<div class="field"><label>Member ' + n + ' full name <span class="tag private">Private</span></label><input type="text" class="pname" maxlength="80" autocomplete="off" placeholder="Alex Chen"></div>' +
-      '<div class="field"><label>Member ' + n + ' nickname <span class="tag public">Public</span></label><input type="text" class="pnick" maxlength="30" autocomplete="off" placeholder="PixelFox"></div>';
+      '<div class="field"><label><span class="lname"></span><span class="tag private">Private</span></label><input type="text" class="pname" maxlength="80" autocomplete="off" placeholder="Alex Chen"></div>' +
+      '<div class="field"><label><span class="lnick"></span><span class="tag public">Public</span></label><input type="text" class="pnick" maxlength="30" autocomplete="off" placeholder="PixelFox">' +
+      '<span class="nick-warn">Please use a nickname, not your real name.</span></div>' +
+      '<button type="button" class="remove" aria-label="Remove this team member" title="Remove this team member">−</button>';
+    row.querySelector('.remove').addEventListener('click', () => { row.remove(); renumber(); });
+    row.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => checkNick(row)));
     peopleBox.appendChild(row);
-    if (peopleBox.children.length >= 6) addBtn.style.display = 'none';
+    renumber();
   }
   addPerson(); addPerson();
   addBtn.addEventListener('click', addPerson);
