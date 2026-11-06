@@ -127,8 +127,25 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.retry.outputs.page_url }}
     steps:
+      # GitHub Pages sometimes gets stuck. Give up after 4 minutes (it is
+      # usually 10-30 seconds) and publish the same website again. This never
+      # adds games twice: each publish replaces the whole website.
       - name: Publish to GitHub Pages
         id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v5
+        with:
+          timeout: 240000
+
+      - name: Wait a moment before trying again
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+
+      - name: Publish to GitHub Pages (second try)
+        id: retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v5
+        with:
+          timeout: 600000
