@@ -1,0 +1,14 @@
+{
+  "id": "077-a-disaster-of-a-test",
+  "issue": 77,
+  "title": "A disaster of a test",
+  "team": "Kirby",
+  "members": "MrBones",
+  "mentor": "Anish Powar",
+  "description": "I was testing and it went terribly wrong.",
+  "controls": "Player One: ← → to move, ↑ to jump",
+  "scene": "",
+  "playtesting": true,
+  "submitted_by": "yche1364-YJ",
+  "approved_at": "2026-11-07T21:19:45+00:00"
+}
