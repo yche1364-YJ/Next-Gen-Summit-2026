@@ -1,0 +1,14 @@
+{
+  "id": "079-space-alien",
+  "issue": 79,
+  "title": "Space Alien",
+  "team": "pinky up",
+  "members": "n/a, Alex",
+  "mentor": "Anish Powar",
+  "description": "collect coins and reach the flag",
+  "controls": "Player One: ← → to move, ↑ to jump",
+  "scene": "",
+  "playtesting": true,
+  "submitted_by": "yche1364-YJ",
+  "approved_at": "2026-11-07T21:21:59+00:00"
+}
