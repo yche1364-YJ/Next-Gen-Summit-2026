@@ -1,0 +1,14 @@
+{
+  "id": "080-cashman",
+  "issue": 80,
+  "title": "Cashman",
+  "team": "Yoshi",
+  "members": "Unit, Dlucky",
+  "mentor": "Anish Powar",
+  "description": "Steal as much money and escape",
+  "controls": "Player One: ← → to move, ↑ to jump",
+  "scene": "",
+  "playtesting": false,
+  "submitted_by": "yche1364-YJ",
+  "approved_at": "2026-11-07T21:28:16+00:00"
+}
