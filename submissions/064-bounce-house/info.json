@@ -1,0 +1,14 @@
+{
+  "id": "064-bounce-house",
+  "issue": 64,
+  "title": "Bounce house",
+  "team": "Spyro + D",
+  "members": "Khoi",
+  "mentor": "Anish Powar",
+  "description": "Fun game with powerful bouncepads",
+  "controls": "Player One: ← → to move, ↑ to jump",
+  "scene": "",
+  "playtesting": false,
+  "submitted_by": "yche1364-YJ",
+  "approved_at": "2026-11-07T21:10:48+00:00"
+}
