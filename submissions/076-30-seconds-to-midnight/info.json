@@ -1,0 +1,14 @@
+{
+  "id": "076-30-seconds-to-midnight",
+  "issue": 76,
+  "title": "30 Seconds To Midnight",
+  "team": "Kirby",
+  "members": "TheMegaManic, SUBWAYCOOKIE_1, grimmybenny, G., AskAshe",
+  "mentor": "Chia-Yu Sung (Winnie)",
+  "description": "Find 30 Coins before the clock strikes 0...",
+  "controls": "Player One: ← Arrows→ to move, ↑ to jump",
+  "scene": "",
+  "playtesting": true,
+  "submitted_by": "yche1364-YJ",
+  "approved_at": "2026-11-07T21:19:29+00:00"
+}
