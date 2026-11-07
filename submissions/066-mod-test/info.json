@@ -1,0 +1,14 @@
+{
+  "id": "066-mod-test",
+  "issue": 66,
+  "title": "Mod test",
+  "team": "Spyro D",
+  "members": "Jay",
+  "mentor": "Anish Powar",
+  "description": "a modded version of an open source game",
+  "controls": "Player One: ← → to move, ↑ to jump",
+  "scene": "",
+  "playtesting": false,
+  "submitted_by": "yche1364-YJ",
+  "approved_at": "2026-11-07T21:11:08+00:00"
+}
