@@ -1,0 +1,14 @@
+{
+  "id": "074-coderot",
+  "issue": 74,
+  "title": "coderot",
+  "team": "Yoshi",
+  "members": "G, Mark",
+  "mentor": "Anish Powar",
+  "description": "A difficult rage type game, but the code broke in like 17 ways.",
+  "controls": "Player One: ← → to move, ↑ to jump",
+  "scene": "",
+  "playtesting": true,
+  "submitted_by": "yche1364-YJ",
+  "approved_at": "2026-11-07T21:15:50+00:00"
+}
